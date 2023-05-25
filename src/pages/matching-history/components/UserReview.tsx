@@ -1,11 +1,12 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
 import { App, Avatar, Button, Input, Rate, Space, Tag } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
+import { IUserReview } from "../interfaces";
 
-type Props = {};
+type Props = {} & IUserReview;
 
-function HistoryItem({}: Props) {
+function UserReview(props: Props) {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,10 +30,10 @@ function HistoryItem({}: Props) {
         <Avatar
           shape="square"
           size={96}
-          src={"/avatar.png"}
+          src={props.avatar && "/avatar.png"}
           className="border border-solid border-slate-500"
         />
-        <p className="text-2xl font-semibold">{"Stonks"}</p>
+        <p className="text-2xl font-semibold">{props.name}</p>
         <p className="text-base">Lasted matching: {"3 day ago"}</p>
         <Rate
           allowHalf
@@ -45,16 +46,16 @@ function HistoryItem({}: Props) {
           <Tag color="blue">Chess</Tag>
         </Space>
         <div className="w-full flex flex-col justify-start text-base mt-4 gap-1">
-          <p>Age: {"28"}</p>
-          <p>Phone: {"0987654321"}</p>
-          <p>Nationality: {"Viet Nam"}</p>
-          <p>Language skill: {"JPLT N1"}</p>
+          <p>Age: {props.age}</p>
+          <p>Phone: {props.phone}</p>
+          <p>Nationality: {props.nationality}</p>
+          <p>Language skill: {props.languageSkills}</p>
         </div>
       </div>
       <div className="flex-1 flex flex-col align-top">
         <p className="text-lg font-semibold mb-2">Review</p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
-          <div className="flex flex-row gap-2 bg-slate-100 p-2 rounded-lg">
+          <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
             <Avatar src={"/avatar.png"} className="shadow-lg" />
             <div className="flex flex-col w-full">
               <div className="w-full flex flex-row justify-between">
@@ -65,29 +66,7 @@ function HistoryItem({}: Props) {
               <p>Hihi hihi</p>
             </div>
           </div>
-          <div className="flex flex-row gap-2 bg-slate-100 p-2 rounded-lg">
-            <Avatar src={"/avatar.png"} className="shadow-lg" />
-            <div className="flex flex-col w-full">
-              <div className="w-full flex flex-row justify-between">
-                <p className="font-semibold">User B</p>
-                <p className="italic">{"21/12/2022"}</p>
-              </div>
-              <Rate disabled allowHalf defaultValue={4.5} />
-              <p>Hihi hihi</p>
-            </div>
-          </div>
-          <div className="flex flex-row gap-2 bg-slate-100 p-2 rounded-lg">
-            <Avatar src={"/avatar.png"} className="shadow-lg" />
-            <div className="flex flex-col w-full">
-              <div className="w-full flex flex-row justify-between">
-                <p className="font-semibold">User B</p>
-                <p className="italic">{"21/12/2022"}</p>
-              </div>
-              <Rate disabled allowHalf defaultValue={4.5} />
-              <p>Hihi hihi</p>
-            </div>
-          </div>
-          <div className="flex items-center flex-row gap-2 bg-slate-100 p-2 rounded-lg">
+          <div className="flex flex-row gap-2 bg-green-100 px-4 py-3 rounded-lg">
             <Avatar src={"/avatar.png"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
               <Rate
@@ -114,11 +93,10 @@ function HistoryItem({}: Props) {
               </Space.Compact>
             </div>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
   );
 }
 
-export default HistoryItem;
+export default UserReview;

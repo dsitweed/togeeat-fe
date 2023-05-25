@@ -1,29 +1,26 @@
-import { useApiClient } from "@/shared/hooks/api";
-import { useEffect, useState } from "react";
-import HistoryItem from "../components/HistoryItem";
+import { Empty } from "antd";
+import { useContext, useEffect } from "react";
+import UserReview from "../components/UserReview";
+import { MatchingHistoryContext } from "../contexts";
 
 function MatchingHistoryPage() {
-  const [historyList, setHistoryList] = useState([]);
-
-  const apiClient = useApiClient("/matching-history");
-
-  async function fetchHistoryList() {
-    const response = await apiClient.getAll();
-
-    setHistoryList(response.data.items);
-  }
+  const { reviewList, fetchReviewList } = useContext(MatchingHistoryContext);
 
   useEffect(() => {
-    fetchHistoryList();
+    fetchReviewList();
   }, []);
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* For demo */}
-      <HistoryItem />
-      {historyList?.map((item, index) => (
-        <HistoryItem key={index} />
-      ))}
+    <div>
+      {reviewList ? (
+        <div className="flex flex-col gap-6">
+          {reviewList.map((item, index) => (
+            <UserReview {...item} key={index} />
+          ))}
+        </div>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      )}
     </div>
   );
 }

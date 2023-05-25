@@ -1,16 +1,16 @@
 import { App } from "antd";
 import axios from "axios";
+import { IPaginationResult } from "../interfaces";
 
 export const useApiClient = <T = any>(url: string) => {
   const { notification } = App.useApp();
 
   async function getAll(params?: any) {
-    const response = await axios.get(url, { params });
+    const response = await axios.get<IPaginationResult<T>>(url, { params });
     if (response.success) {
       return response;
     } else {
       notification.error({ message: response.message });
-      return { count: 0, items: [] };
     }
   }
 
