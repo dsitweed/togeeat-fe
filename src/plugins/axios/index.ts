@@ -5,8 +5,14 @@ import axios, {
   RawAxiosResponseHeaders,
 } from "axios";
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
+
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  config.headers["Authorization"] = `Bearer ${token}`;
+  return config;
+});
 
 axios.interceptors.response.use(
   function (response) {

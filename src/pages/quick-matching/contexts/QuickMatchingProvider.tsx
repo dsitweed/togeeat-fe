@@ -4,7 +4,9 @@ import { QuickMatchingContext } from ".";
 import { IQuickMatching } from "../interfaces";
 
 function QuickMatchingProvider(props: PropsWithChildren) {
-  const apiClient = useApiClient<IQuickMatching>("/quick-matching");
+  const apiClient = useApiClient<IQuickMatching>(
+    "/matching?status=OPEN&matchingType=QUICK"
+  );
   const [matchingList, setMatchingList] = useState<IQuickMatching[]>();
 
   async function fetchMatchingList() {

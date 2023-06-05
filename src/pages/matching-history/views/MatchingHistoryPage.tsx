@@ -12,7 +12,7 @@ function MatchingHistoryPage() {
 
   return (
     <div>
-      {reviewList ? (
+      {reviewList && reviewList.length ? (
         <div className="flex flex-col gap-6">
           {reviewList.map((item, index) => (
             <UserReview {...item} key={index} />

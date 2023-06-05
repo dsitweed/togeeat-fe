@@ -7,10 +7,10 @@ import { IQuickMatching } from "../interfaces";
 
 type Props = {} & IQuickMatching;
 
-function QuickMatchingItem({}: Props) {
+function QuickMatchingItem(props: Props) {
   const [isJoined, setIsJoined] = useState(false);
   const [_now, setNow] = useState(Date.now());
-  const time = "13:50";
+  const time = dayjs(props.matchingDate).format("HH:mm");
 
   const remain = dayjs(time, "HH:mm").diff(Date.now(), "minute");
 
@@ -38,7 +38,7 @@ function QuickMatchingItem({}: Props) {
         <Image src={NotStonksImage} alt="" />
       </div>
       <div className="inline-flex items-center justify-between pt-4 text-2xl font-semibold">
-        In Hanoi
+        {props.address}
         {isJoined && (
           <Tag color="green" className="px-2 py-1">
             Joined
@@ -49,7 +49,7 @@ function QuickMatchingItem({}: Props) {
         <div className="flex flex-row items-center">
           <Avatar size={56} src={"/avatar.png"} />
           <div className="flex flex-col">
-            <p>Host: {"User A"}</p>
+            <p>Host: {props.ownerId}</p>
             <div className="inline-flex">
               <p className="mr-2">Favorite</p>
               <Space size={[0, "small"]} wrap>
@@ -60,7 +60,7 @@ function QuickMatchingItem({}: Props) {
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <p>Time: {"12:20"}</p>
+          <p>Time: {time}</p>
           {remain >= 0 ? (
             <p>{remain} min left</p>
           ) : (

@@ -49,6 +49,11 @@ function Sider({ collapsed, setCollapsed }: Props) {
     [navigate]
   );
 
+  function handleSignOut() {
+    localStorage.clear();
+    navigate("/auth/sign-in");
+  }
+
   return (
     <Layout.Sider
       theme="light"
@@ -90,7 +95,11 @@ function Sider({ collapsed, setCollapsed }: Props) {
         items={siderItems()}
       />
       <div className="absolute flex justify-center w-full bottom-4">
-        <Button icon={<LogoutOutlined />} className="w-full mx-3">
+        <Button
+          onClick={handleSignOut}
+          icon={<LogoutOutlined />}
+          className="w-full mx-3"
+        >
           {!collapsed && "Logout"}
         </Button>
       </div>

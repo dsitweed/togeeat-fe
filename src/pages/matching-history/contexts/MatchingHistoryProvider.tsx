@@ -4,7 +4,7 @@ import { MatchingHistoryContext } from ".";
 import { IUserReview } from "../interfaces";
 
 function MatchingHistoryProvider(props: PropsWithChildren) {
-  const apiClient = useApiClient<IUserReview>("/matching-history");
+  const apiClient = useApiClient<IUserReview>("/matching/my-matchings");
   const [reviewList, setReviewList] = useState<IUserReview[]>();
 
   async function fetchReviewList() {
