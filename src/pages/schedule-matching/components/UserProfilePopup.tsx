@@ -1,13 +1,15 @@
 import UserReview from "@/pages/matching-history/components/UserReview";
+import { IUserInfo } from "@/pages/user/interfaces";
 import { Modal } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  userInfo: IUserInfo;
 };
 
-function UserProfilePopup({ isOpen, setIsOpen }: Props) {
+function UserProfilePopup({ isOpen, setIsOpen, userInfo }: Props) {
   const handleOk = () => {
     setIsOpen(false);
   };
@@ -30,7 +32,7 @@ function UserProfilePopup({ isOpen, setIsOpen }: Props) {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <UserReview />
+      <UserReview {...userInfo} />
     </Modal>
   );
 }

@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Button, Layout, Menu, Tooltip } from "antd";
 import React, { useCallback } from "react";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   collapsed: boolean;

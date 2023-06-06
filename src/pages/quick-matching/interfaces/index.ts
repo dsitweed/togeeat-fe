@@ -1,3 +1,5 @@
+import { IUserInfo } from "@/pages/user/interfaces";
+
 export interface IQuickMatching {
   address: string;
   conversationTopics: string;
@@ -7,6 +9,7 @@ export interface IQuickMatching {
   matchingDate: Date;
   matchingType: string;
   ownerId: number;
+  owner: IUserInfo;
   status: string;
   updatedAt: Date;
 }

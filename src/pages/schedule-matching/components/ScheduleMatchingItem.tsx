@@ -40,7 +40,11 @@ function ScheduleMatchingItem(props: Props) {
           {"Cancel"}
         </Button>
       </Tooltip>
-      <UserProfilePopup isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <UserProfilePopup
+        userInfo={props.owner}
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+      />
     </div>
   );
 }

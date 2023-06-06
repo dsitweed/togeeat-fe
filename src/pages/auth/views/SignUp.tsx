@@ -1,6 +1,6 @@
-import { App, Form, Input, Button } from "antd";
+import { App, Button, Form, Input } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {

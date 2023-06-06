@@ -13,17 +13,17 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
   const [name, setName] = useState("");
   const [age, setAge] = useState<number>();
   const [description, setDescription] = useState("");
-  const [avatar, setAvatar] = useState(
+  const [avatar, _setAvatar] = useState(
     "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
   );
   const [phone, setPhone] = useState("");
-  const [backgroundImage, setBackgroundImage] = useState(
+  const [backgroundImage, _setBackgroundImage] = useState(
     "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
   );
-  const [address, setAddress] = useState("");
+  const [address, _setAddress] = useState("");
   const [nationality, setNationality] = useState("");
   const [languageSkills, setLanguageSkills] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, _setIsPublic] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
