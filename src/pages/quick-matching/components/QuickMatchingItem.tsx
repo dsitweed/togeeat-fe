@@ -4,6 +4,7 @@ import { Avatar, Button, Image, Space, Tag } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { IQuickMatching } from "../interfaces";
+import axios from "axios";
 
 type Props = {} & IQuickMatching;
 
@@ -27,7 +28,9 @@ function QuickMatchingItem(props: Props) {
   async function toggleIsJoined() {
     if (isJoined) {
       setIsJoined(false);
+      await axios.patch(`/matching/leave/${props.id}`);
     } else {
+      await axios.patch(`/matching/join/${props.id}`);
       setIsJoined(true);
     }
   }
