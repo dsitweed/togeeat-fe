@@ -1,7 +1,8 @@
 import { App, Button, DatePicker, Form, Input, Modal } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ScheduleMatchingContext } from "../contexts";
 
 type Props = {
   isOpen: boolean;
@@ -10,6 +11,8 @@ type Props = {
 
 function CreateMatchingForm({ isOpen, setIsOpen }: Props) {
   const { notification } = App.useApp();
+
+  const { fetchMatchingList } = useContext(ScheduleMatchingContext);
 
   const [address, setAddress] = useState("");
   const [desiredFood, setDesiredFood] = useState("");
@@ -36,6 +39,7 @@ function CreateMatchingForm({ isOpen, setIsOpen }: Props) {
       matchingType,
     });
     if (response.success) {
+      await fetchMatchingList();
       notification.success({ message: "Create matching success" });
       handleCancel();
     } else {

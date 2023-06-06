@@ -1,7 +1,8 @@
-import { App, Button, DatePicker, Form, Input, Modal } from "antd";
+import { App, Button, DatePicker, Form, Input, InputNumber, Modal } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { QuickMatchingContext } from "../contexts";
 
 type Props = {
   isOpen: boolean;
@@ -10,12 +11,13 @@ type Props = {
 
 function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
   const { notification } = App.useApp();
+  const { fetchMatchingList } = useContext(QuickMatchingContext);
 
   const [address, setAddress] = useState("");
   const [desiredFood, setDesiredFood] = useState("");
   const [conversationTopics, setConversationTopics] = useState("");
   const matchingType = "QUICK";
-  const [matchingDate, setMatchingDate] = useState(new Date());
+  const [duration, setDuration] = useState<number>(0);
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
@@ -32,10 +34,11 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
       address,
       desiredFood,
       conversationTopics,
-      matchingDate,
+      matchingDate: dayjs().add(duration, "minute"),
       matchingType,
     });
     if (response.success) {
+      await fetchMatchingList();
       notification.success({ message: "Create matching success" });
       handleCancel();
     } else {
@@ -59,12 +62,10 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
     >
       <Form layout="vertical" className="w-full">
         <Form.Item label="date" name="date">
-          <DatePicker
-            showTime={{ format: "HH:mm" }}
-            format="YYYY-MM-DD HH:mm"
-            value={dayjs(matchingDate)}
-            onChange={(e) => e && setMatchingDate(e.toDate())}
-            placeholder="Enter date"
+          <InputNumber
+            value={duration}
+            onChange={(e) => e && setDuration(e)}
+            placeholder="Enter duration(minute)"
           />
         </Form.Item>
         <Form.Item label="desiredFood" name="desiredFood">
