@@ -1,0 +1,52 @@
+{
+  "auth": {
+    "action": {
+      "signIn": "ログイン",
+      "signUp": "サインアップ",
+      "signOut": "サインアウト"
+    },
+    "form": {
+      "name": {
+        "label": "名前",
+        "placeholder": "名前を入力"
+      },
+      "email": {
+        "label": "Eメール",
+        "placeholder": "メールアドレスを入力して"
+      },
+      "password": {
+        "label": "パスワード",
+        "placeholder": "パスワードを入力する"
+      },
+      "phone": {
+        "label": "電話",
+        "placeholder": "電話番号を入力してください"
+      },
+      "nationality": {
+        "label": "国籍",
+        "placeholder": "国籍を選択してください"
+      },
+      "languageSkills": {
+        "label": "言語スキル",
+        "placeholder": "言語スキルを選択してください"
+      },
+      "age": {
+        "label": "年",
+        "placeholder": "年齢を入力してください"
+      }
+    },
+    "message": {
+      "signInSuccess": "サインイン成功",
+      "signUpSuccess": "サインアップ成功"
+    },
+    "text": {
+      "forgotPassword": "パスワードをお忘れですか",
+      "doNotHaveAccount": "アカウントをお持ちでない場合は、",
+      "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+      "createNewAccount": "新しいアカウントを作成する",
+      "signInNow": "今すぐサインインしてください！",
+      "forgotPasswordHint": "メールアドレスを入力してください。パスワードをリセットする手順が送信されます。",
+      "backToSignIn": "サインインに戻る"
+    }
+  }
+}

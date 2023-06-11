@@ -1,0 +1,36 @@
+{
+  "auth": {
+    "action": {
+      "signIn": "Đăng nhập",
+      "signUp": "Đăng ký",
+      "signOut": "Đăng xuất"
+    },
+    "form": {
+      "name": {
+        "label": "Họ tên",
+        "placeholder": "Nhập họ tên"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập địa chỉ mail"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu"
+      }
+    },
+    "message": {
+      "signInSuccess": "Đăng nhập thành công",
+      "signUpSuccess": "Đăng ký thành công"
+    },
+    "text": {
+      "forgotPassword": "Quên mật khẩu",
+      "doNotHaveAccount": "Chưa có tài khoản?",
+      "alreadyHaveAccount": "Đã có tài khoản?",
+      "createNewAccount": "Đăng ký ngay",
+      "signInNow": "Đăng nhập luôn!",
+      "forgotPasswordHint": "Nhập địa chỉ mail của bạn và chúng tôi sẽ gửi một email hướng dẫn bạn khôi phục mật khẩu",
+      "backToSignIn": "Quay về đăng nhập"
+    }
+  }
+}

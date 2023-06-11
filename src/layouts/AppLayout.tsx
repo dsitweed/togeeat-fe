@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Sider from "./components/Sider";
 import MatchingHistoryProvider from "@/pages/matching-history/contexts/MatchingHistoryProvider";
 import QuickMatchingProvider from "@/pages/quick-matching/contexts/QuickMatchingProvider";
+import LanguageProvider from "@/providers/LanguageProvider";
 
 function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
@@ -15,21 +16,23 @@ function AppLayout() {
   }
   return (
     <App>
-      <MatchingHistoryProvider>
-        <QuickMatchingProvider>
-          <Layout style={{ height: "100vh" }}>
-            <Sider collapsed={collapsed} setCollapsed={setCollapsed} />
-            <Layout>
-              <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-              <Layout.Content className="overflow-auto">
-                <div className="mx-6 my-4 ">
-                  <Outlet />
-                </div>
-              </Layout.Content>
+      <LanguageProvider>
+        <MatchingHistoryProvider>
+          <QuickMatchingProvider>
+            <Layout style={{ height: "100vh" }}>
+              <Sider collapsed={collapsed} setCollapsed={setCollapsed} />
+              <Layout>
+                <Header collapsed={collapsed} setCollapsed={setCollapsed} />
+                <Layout.Content className="overflow-auto">
+                  <div className="mx-6 my-4 ">
+                    <Outlet />
+                  </div>
+                </Layout.Content>
+              </Layout>
             </Layout>
-          </Layout>
-        </QuickMatchingProvider>
-      </MatchingHistoryProvider>
+          </QuickMatchingProvider>
+        </MatchingHistoryProvider>
+      </LanguageProvider>
     </App>
   );
 }

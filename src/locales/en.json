@@ -1,0 +1,52 @@
+{
+  "auth": {
+    "action": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "signOut": "Sign Out"
+    },
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "Enter phone"
+      },
+      "nationality": {
+        "label": "Nationality",
+        "placeholder": "Select nationality"
+      },
+      "languageSkills": {
+        "label": "Language Skills",
+        "placeholder": "Select language skills"
+      },
+      "age": {
+        "label": "Age",
+        "placeholder": "Enter age"
+      }
+    },
+    "message": {
+      "signInSuccess": "Sign in success",
+      "signUpSuccess": "Sign up success"
+    },
+    "text": {
+      "forgotPassword": "Forgot password",
+      "doNotHaveAccount": "Don't have account?",
+      "alreadyHaveAccount": "Already have an account?",
+      "createNewAccount": "Create new account",
+      "signInNow": "Sign in now!",
+      "forgotPasswordHint": "Enter your email and we'll send you instructions to reset your password",
+      "backToSignIn": "Back to sign in"
+    }
+  }
+}

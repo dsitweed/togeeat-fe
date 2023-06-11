@@ -5,7 +5,6 @@ import axios, {
   RawAxiosResponseHeaders,
 } from "axios";
 
-// axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
 
 axios.interceptors.request.use((config) => {
