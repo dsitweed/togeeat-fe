@@ -1,24 +1,28 @@
 import StonksImage from "@/assets/images/stonks.jpg";
 import UserProfilePopup from "@/components/bussiness/UserProfilePopup";
+import { AuthContext } from "@/contexts/auth";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { IconMessage, IconToolsKitchen } from "@tabler/icons-react";
 import { Avatar, Button, Image, Space, Tag, Tooltip, Typography } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 type Props = {} & Response.IQuickMatching;
 
 function QuickMatchingItem(props: Props) {
-  const [isJoined, setIsJoined] = useState(false);
+  const { user } = useContext(AuthContext);
+  const [isJoined, setIsJoined] = useState(
+    props.userMatchings.filter((item) => item.userId === user?.id).length !== 0
+  );
   const [_now, setNow] = useState(Date.now());
   const time = dayjs(props.matchingDate).format("HH:mm");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<number>();
 
-  const remain = dayjs(time, "HH:mm").diff(Date.now(), "minute");
+  const remain = dayjs(props.matchingDate).diff(Date.now(), "minute");
 
   useEffect(() => {
     const interval = setInterval(() => {

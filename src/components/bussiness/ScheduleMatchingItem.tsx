@@ -1,9 +1,9 @@
+import StonksImage from "@/assets/images/stonks.jpg";
 import UserProfilePopup from "@/components/bussiness/UserProfilePopup";
-import { Avatar, Button, Image, Space, Tooltip } from "antd";
+import { Avatar, Image, Space, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import StonksImage from "@/assets/images/stonks.jpg";
 
 type Props = {} & Response.IScheduleMatching;
 
@@ -48,11 +48,6 @@ function ScheduleMatchingItem(props: Props) {
           </p>
         </div>
       </div>
-      <Tooltip title={t("common.button.cancel")} placement="bottom">
-        <Button danger type="primary">
-          {t("common.button.cancel")}
-        </Button>
-      </Tooltip>
       {selectedUser && (
         <UserProfilePopup
           userId={selectedUser}

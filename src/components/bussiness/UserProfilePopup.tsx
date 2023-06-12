@@ -2,6 +2,7 @@ import UserReview from "@/components/bussiness/UserReview";
 import { Modal, Skeleton } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isOpen: boolean;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
+  const { t } = useTranslation();
   const [userInfo, setUserInfo] = useState<Response.IUser>();
   const [loading, setLoading] = useState(false);
 
@@ -24,11 +26,10 @@ function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
   const load = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/user/${userId}`);
+      const response = await axios.get(`/users/${userId}`);
       if (response.success) {
         setUserInfo(response.data);
       }
-      console.log(response);
     } catch (error) {}
     setLoading(false);
   };
@@ -46,10 +47,12 @@ function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
   return (
     <Modal
       width={"640"}
-      title="User profile"
+      title={t("common.title.userInfo")}
       open={isOpen}
       onOk={handleOk}
       onCancel={handleCancel}
+      okText={t("common.button.ok")}
+      cancelText={t("common.button.cancel")}
     >
       {loading ? <Skeleton /> : userInfo && <UserReview {...userInfo} />}
     </Modal>

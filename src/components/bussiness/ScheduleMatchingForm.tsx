@@ -70,7 +70,7 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
         layout="vertical"
         className="w-full"
       >
-        <Form.Item label={t("matching.form.date.label")} name="date">
+        <Form.Item label={t("matching.form.date.label")} name="matchingDate">
           <DatePicker
             showTime={{ format: "HH:mm" }}
             format="YYYY-MM-DD HH:mm"

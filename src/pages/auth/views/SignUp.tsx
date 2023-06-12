@@ -1,7 +1,8 @@
 import { languageOptions } from "@/components/common/ChangeLanguage";
+import { AuthContext } from "@/contexts/auth";
 import { App, Button, Form, Input, InputNumber, Select } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function SignUp() {
   const { t } = useTranslation();
   const { notification } = App.useApp();
   const navigate = useNavigate();
+  const { fetchUserFromStorage } = useContext(AuthContext);
 
   const [form] = Form.useForm<ISignUpForm>();
 
@@ -35,7 +37,8 @@ function SignUp() {
     });
     if (response.success) {
       localStorage.setItem("token", response.data.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("user", JSON.stringify(response.data.account.user));
+      fetchUserFromStorage();
       navigate("/");
       notification.success({ message: t("auth.message.signUpSuccess") });
     } else {

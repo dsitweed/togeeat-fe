@@ -3,13 +3,23 @@ import { PropsWithChildren, useState } from "react";
 import { MatchingHistoryContext } from "../matchingHistory";
 
 function MatchingHistoryProvider(props: PropsWithChildren) {
-  const apiClient = useApiClient<Response.IUser>("/matching/my-matchings");
-  const [reviewList, setReviewList] = useState<Response.IUser[]>();
+  const apiClient = useApiClient<Response.IMatchingHistory>(
+    "/matching/my-matchings"
+  );
+  const [reviewList, setReviewList] = useState<number[]>();
 
   async function fetchReviewList() {
     const response = await apiClient.getAll();
     if (response?.success) {
-      setReviewList(response.data.items);
+      const userIdList: number[] = [];
+      response.data.items.forEach((element) => {
+        element.matching.userMatchings.map((item) => {
+          if (!userIdList.includes(item.user.id)) {
+            userIdList.push(item.user.id);
+          }
+        });
+      });
+      setReviewList(userIdList);
     }
   }
 

@@ -42,6 +42,12 @@ declare namespace Response {
   }
 
   export interface IScheduleMatching extends IQuickMatching {}
+
+  export interface IMatchingHistory {
+    userId: number;
+    matchingId: number;
+    matching: IScheduleMatching;
+  }
 }
 
 declare namespace I18nType {

@@ -1,6 +1,7 @@
+import { AuthContext } from "@/contexts/auth";
 import { App, Button, Form, Input } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,6 +14,7 @@ function SignIn() {
   const { t } = useTranslation();
   const { notification } = App.useApp();
   const navigate = useNavigate();
+  const { fetchUserFromStorage } = useContext(AuthContext);
 
   const [form] = Form.useForm<ISignInForm>();
 
@@ -23,12 +25,14 @@ function SignIn() {
     const response = await axios.post("/auth/signin", values);
     if (response.success) {
       localStorage.setItem("token", response.data.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("user", JSON.stringify(response.data.account.user));
+      fetchUserFromStorage();
       navigate("/");
       notification.success({ message: t("auth.message.signInSuccess") });
     } else {
       notification.error({ message: response.message });
     }
+    setLoading(false);
   };
 
   return (

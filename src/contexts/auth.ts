@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 interface IUser {
+  id: number;
   name: string;
   age: number;
   description: string;

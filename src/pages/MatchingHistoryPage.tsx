@@ -1,4 +1,4 @@
-import UserReview from "@/components/bussiness/UserReview";
+import UserReviewCard from "@/components/bussiness/UserReviewCard";
 import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 import { Empty, Skeleton } from "antd";
 import { useContext, useEffect, useState } from "react";
@@ -25,7 +25,7 @@ function MatchingHistoryPage() {
       ) : reviewList && reviewList.length ? (
         <div className="flex flex-col gap-6">
           {reviewList.map((item, index) => (
-            <UserReview {...item} key={index} />
+            <UserReviewCard userId={item} key={index} />
           ))}
         </div>
       ) : (

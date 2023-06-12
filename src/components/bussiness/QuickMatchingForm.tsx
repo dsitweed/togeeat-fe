@@ -36,9 +36,11 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
 
   const onSubmit = async (values: IQuickMatchingForm) => {
     setLoading(true);
+    const { duration, ...sendValues } = values;
+    const matchingDate = dayjs().add(duration, "minute");
     const response = await axios.post("/matching", {
-      ...values,
-      matchingDate: dayjs().add(values.duration, "minute"),
+      ...sendValues,
+      matchingDate,
       matchingType,
     });
     if (response.success) {

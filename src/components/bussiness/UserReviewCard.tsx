@@ -1,15 +1,21 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
-import { Avatar, Button, Input, Rate, Space, Tag } from "antd";
-import { useState } from "react";
+import { Avatar, Button, Input, Rate, Skeleton, Space, Tag } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type Props = {} & Response.IUser;
+type UserInfo = {
+  userId: number;
+};
 
-function UserReview(props: Props) {
+function UserReviewCard({ userId }: UserInfo) {
   const { t } = useTranslation();
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+
+  const [userInfo, setUserInfo] = useState<Response.IUser>();
+  const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const apiClient = useApiClient("/matching-history");
@@ -19,16 +25,33 @@ function UserReview(props: Props) {
     await apiClient.create({ rating, comment });
     setIsLoading(false);
   }
-  return (
+
+  const load = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`/users/${userId}`);
+      if (response.success) {
+        setUserInfo(response.data);
+      }
+    } catch (error) {}
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+  return loading ? (
+    <Skeleton />
+  ) : (
     <div className="flex flex-row gap-12 bg-white rounded-lg px-6 py-4">
       <div className="flex flex-col items-center gap-2">
         <Avatar
           shape="square"
           size={96}
-          src={props.avatar && "/avatar.jpg"}
+          src={userInfo?.avatar || "/avatar.jpg"}
           className="border border-solid border-slate-500"
         />
-        <p className="text-2xl font-semibold">{props.name}</p>
+        <p className="text-2xl font-semibold">{userInfo?.name}</p>
         <p className="text-base">Lasted matching: {"3 day ago"}</p>
         <Rate
           allowHalf
@@ -42,16 +65,16 @@ function UserReview(props: Props) {
         </Space>
         <div className="w-full flex flex-col justify-start text-base mt-4 gap-1">
           <p>
-            {t("auth.form.age.label")}: {props.age}
+            {t("auth.form.age.label")}: {userInfo?.age}
           </p>
           <p>
-            {t("auth.form.phone.label")}: {props.phone}
+            {t("auth.form.phone.label")}: {userInfo?.phone}
           </p>
           <p>
-            {t("auth.form.nationality.label")}: {props.nationality}
+            {t("auth.form.nationality.label")}: {userInfo?.nationality}
           </p>
           <p>
-            {t("auth.form.languageSkills.label")}: {props.languageSkills}
+            {t("auth.form.languageSkills.label")}: {userInfo?.languageSkills}
           </p>
         </div>
       </div>
@@ -104,4 +127,4 @@ function UserReview(props: Props) {
   );
 }
 
-export default UserReview;
+export default UserReviewCard;
