@@ -2,10 +2,10 @@ import AppLayout from "@/layouts/AppLayout";
 import AuthLayout from "@/layouts/AuthLayout";
 import SignIn from "@/pages/auth/views/SignIn";
 import SignUp from "@/pages/auth/views/SignUp";
-import ChatPage from "@/pages/chat/views/ChatPage";
-import MatchingHistoryPage from "@/pages/matching-history/views/MatchingHistoryPage";
-import QuickMatchingPage from "@/pages/quick-matching/views/QuickMatchingPage";
-import ScheduleMatchingPage from "@/pages/schedule-matching/views/ScheduleMatchingPage";
+import ChatPage from "@/pages/ChatPage";
+import MatchingHistoryPage from "@/pages/MatchingHistoryPage";
+import QuickMatchingPage from "@/pages/QuickMatchingPage";
+import ScheduleMatchingPage from "@/pages/ScheduleMatchingPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([

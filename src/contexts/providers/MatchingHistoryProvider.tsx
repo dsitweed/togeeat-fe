@@ -1,11 +1,10 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { PropsWithChildren, useState } from "react";
-import { MatchingHistoryContext } from ".";
-import { IUserReview } from "../interfaces";
+import { MatchingHistoryContext } from "../matchingHistory";
 
 function MatchingHistoryProvider(props: PropsWithChildren) {
-  const apiClient = useApiClient<IUserReview>("/matching/my-matchings");
-  const [reviewList, setReviewList] = useState<IUserReview[]>();
+  const apiClient = useApiClient<Response.IUser>("/matching/my-matchings");
+  const [reviewList, setReviewList] = useState<Response.IUser[]>();
 
   async function fetchReviewList() {
     const response = await apiClient.getAll();

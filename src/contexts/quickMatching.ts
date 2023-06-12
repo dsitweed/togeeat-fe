@@ -1,8 +1,7 @@
 import { createContext } from "react";
-import { IQuickMatching } from "../interfaces";
 
 interface QuickMatchingState {
-  matchingList?: IQuickMatching[];
+  matchingList?: Response.IQuickMatching[];
   fetchMatchingList: () => Promise<void>;
 }
 

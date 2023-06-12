@@ -29,7 +29,6 @@ function SignIn() {
     } else {
       notification.error({ message: response.message });
     }
-    setLoading(false);
   };
 
   return (

@@ -2,9 +2,8 @@ import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
 import { App, Avatar, Button, Input, Rate, Space, Tag } from "antd";
 import { useState } from "react";
-import { IUserReview } from "../interfaces";
 
-type Props = {} & IUserReview;
+type Props = {} & Response.IUser;
 
 function UserReview(props: Props) {
   const [rating, setRating] = useState<number>(0);
@@ -30,7 +29,7 @@ function UserReview(props: Props) {
         <Avatar
           shape="square"
           size={96}
-          src={props.avatar && "/avatar.png"}
+          src={props.avatar && "/avatar.jpg"}
           className="border border-solid border-slate-500"
         />
         <p className="text-2xl font-semibold">{props.name}</p>
@@ -56,7 +55,7 @@ function UserReview(props: Props) {
         <p className="text-lg font-semibold mb-2">Review</p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
           <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
-            <Avatar src={"/avatar.png"} className="shadow-lg" />
+            <Avatar src={"/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col w-full">
               <div className="w-full flex flex-row justify-between">
                 <p className="font-semibold">User B</p>
@@ -67,7 +66,7 @@ function UserReview(props: Props) {
             </div>
           </div>
           <div className="flex flex-row gap-2 bg-green-100 px-4 py-3 rounded-lg">
-            <Avatar src={"/avatar.png"} className="shadow-lg" />
+            <Avatar src={"/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
               <Rate
                 disabled={isLoading}

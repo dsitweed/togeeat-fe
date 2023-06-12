@@ -1,11 +1,13 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { PropsWithChildren, useState } from "react";
-import { ScheduleMatchingContext } from ".";
-import { IMatching } from "../interfaces";
+import { ScheduleMatchingContext } from "../scheduleMatching";
 
 function ScheduleMatchingProvider(props: PropsWithChildren) {
-  const apiClient = useApiClient<IMatching>("/schedule-matching");
-  const [matchingList, setMatchingList] = useState<IMatching[]>();
+  const apiClient = useApiClient<Response.IScheduleMatching>(
+    "/matching?matchingType=YOTEI"
+  );
+  const [matchingList, setMatchingList] =
+    useState<Response.IScheduleMatching[]>();
 
   async function fetchMatchingList() {
     const response = await apiClient.getAll();

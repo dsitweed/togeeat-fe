@@ -1,39 +1,38 @@
-import { App, Layout } from "antd";
-import { useState } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { AuthContext } from "@/contexts/auth";
+import MatchingHistoryProvider from "@/contexts/providers/MatchingHistoryProvider";
+import QuickMatchingProvider from "@/contexts/providers/QuickMatchingProvider";
+import ScheduleMatchingProvider from "@/contexts/providers/ScheduleMatchingProvider";
+import { Layout } from "antd";
+import { useContext, useState } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Sider from "./components/Sider";
-import MatchingHistoryProvider from "@/pages/matching-history/contexts/MatchingHistoryProvider";
-import QuickMatchingProvider from "@/pages/quick-matching/contexts/QuickMatchingProvider";
-import LanguageProvider from "@/providers/LanguageProvider";
 
 function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const { user } = useContext(AuthContext);
 
-  const token = localStorage.getItem("token");
-  if (!token) {
+  if (!user) {
     return <Navigate to={"/auth/sign-in"} />;
   }
   return (
-    <App>
-      <LanguageProvider>
-        <MatchingHistoryProvider>
-          <QuickMatchingProvider>
-            <Layout style={{ height: "100vh" }}>
-              <Sider collapsed={collapsed} setCollapsed={setCollapsed} />
-              <Layout>
-                <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-                <Layout.Content className="overflow-auto">
-                  <div className="mx-6 my-4 ">
-                    <Outlet />
-                  </div>
-                </Layout.Content>
-              </Layout>
+    <MatchingHistoryProvider>
+      <QuickMatchingProvider>
+        <ScheduleMatchingProvider>
+          <Layout style={{ height: "100vh" }}>
+            <Sider collapsed={collapsed} setCollapsed={setCollapsed} />
+            <Layout>
+              <Header collapsed={collapsed} setCollapsed={setCollapsed} />
+              <Layout.Content className="overflow-auto">
+                <div className="mx-6 my-4 ">
+                  <Outlet />
+                </div>
+              </Layout.Content>
             </Layout>
-          </QuickMatchingProvider>
-        </MatchingHistoryProvider>
-      </LanguageProvider>
-    </App>
+          </Layout>
+        </ScheduleMatchingProvider>
+      </QuickMatchingProvider>
+    </MatchingHistoryProvider>
   );
 }
 

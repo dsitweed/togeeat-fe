@@ -1,13 +1,15 @@
+import { AuthContext } from "@/contexts/auth";
+import Icon, { UserOutlined } from "@ant-design/icons";
 import {
-  ApiOutlined,
-  HistoryOutlined,
-  LogoutOutlined,
-  ScheduleOutlined,
-  UserOutlined,
-  WechatOutlined,
-} from "@ant-design/icons";
+  IconBrandTinder,
+  IconBrandWechat,
+  IconCalendarEvent,
+  IconHistory,
+  IconLogout,
+} from "@tabler/icons-react";
 import { Avatar, Button, Layout, Menu, Tooltip } from "antd";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -17,35 +19,42 @@ interface Props {
 
 const items = [
   {
-    key: /* "/quick-matching" */ "/",
-    label: "Quick Matching",
-    icon: <ApiOutlined />,
+    key: "/",
+    label: "common.title.quickMatching",
+    icon: <IconBrandTinder size={16} strokeWidth={1.5} />,
     children: null,
   },
   {
     key: "/schedule-matching",
-    label: "Schedule Matching",
-    icon: <ScheduleOutlined />,
+    label: "common.title.scheduleMatching",
+    icon: <IconCalendarEvent size={16} strokeWidth={1.5} />,
     children: null,
   },
   {
     key: "/matching-history",
-    label: "Matching History",
-    icon: <HistoryOutlined />,
+    label: "common.title.matchingHistory",
+    icon: <IconHistory size={16} strokeWidth={1.5} />,
     children: null,
   },
   {
     key: "/chat",
-    label: "Chat",
-    icon: <WechatOutlined />,
+    label: "common.title.chat",
+    icon: <IconBrandWechat size={16} strokeWidth={1.5} />,
     children: null,
   },
 ];
 
 function Sider({ collapsed, setCollapsed }: Props) {
+  const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const siderItems = useCallback(
-    () => items.map((item) => ({ ...item, onClick: () => navigate(item.key) })),
+    () =>
+      items.map((item) => ({
+        ...item,
+        label: t(item.label),
+        onClick: () => navigate(item.key),
+      })),
     [navigate]
   );
 
@@ -60,18 +69,18 @@ function Sider({ collapsed, setCollapsed }: Props) {
       trigger={null}
       collapsible
       collapsed={collapsed}
-      collapsedWidth={64}
+      collapsedWidth={80}
       width={256}
       onCollapse={(value) => setCollapsed(value)}
       className="border-solid border-0 border-r border-slate-300 font-medium"
     >
       <div className="flex justify-center py-3 border-b border-slate-300 border-solid border-0">
         {collapsed ? (
-          <Tooltip title="Stonks" placement="right">
+          <Tooltip title={user?.name} placement="right">
             <Avatar
               size={40}
               className="flex items-center justify-center justify-self-center shadow-lg"
-              src={"/avatar.png"}
+              src={user?.avatar || "/avatar.jpg"}
               icon={<UserOutlined />}
             />
           </Tooltip>
@@ -80,27 +89,30 @@ function Sider({ collapsed, setCollapsed }: Props) {
             <Avatar
               size={40}
               className="flex items-center justify-center justify-self-center shadow-lg"
-              src={"/avatar.png"}
-              icon={<UserOutlined />}
+              src={user?.avatar || "/avatar.jpg"}
             />
-            <p className="font-semibold">{"Stonks"}</p>
+            <p className="font-semibold">{user?.name}</p>
           </div>
         )}
       </div>
       <Menu
         theme="light"
         mode="inline"
-        className="text-slate-500"
+        className="text-slate-500 px-2 pt-2"
         defaultSelectedKeys={[location.pathname]}
         items={siderItems()}
       />
       <div className="absolute flex justify-center w-full bottom-4">
         <Button
+          icon={
+            <Icon
+              component={() => <IconLogout size={16} strokeWidth={1.5} />}
+            />
+          }
           onClick={handleSignOut}
-          icon={<LogoutOutlined />}
           className="w-full mx-3"
         >
-          {!collapsed && "Logout"}
+          {!collapsed && t("auth.action.signOut")}
         </Button>
       </div>
     </Layout.Sider>

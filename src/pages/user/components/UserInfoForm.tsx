@@ -1,29 +1,29 @@
-import { App, Button, Form, Input, InputNumber, Modal } from "antd";
+import { languageOptions } from "@/components/common/ChangeLanguage";
+import { App, Button, Form, Input, InputNumber, Modal, Select } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+interface IUserInfoForm {
+  age: number;
+  name: string;
+  description: string;
+  phone: string;
+  address: string;
+  nationality: string;
+  languageSkills: string[];
+}
+
 function UserInfoForm({ isOpen, setIsOpen }: Props) {
+  const { t } = useTranslation();
   const { notification } = App.useApp();
 
-  const [name, setName] = useState("");
-  const [age, setAge] = useState<number>();
-  const [description, setDescription] = useState("");
-  const [avatar, _setAvatar] = useState(
-    "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-  );
-  const [phone, setPhone] = useState("");
-  const [backgroundImage, _setBackgroundImage] = useState(
-    "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-  );
-  const [address, _setAddress] = useState("");
-  const [nationality, setNationality] = useState("");
-  const [languageSkills, setLanguageSkills] = useState("");
-  const [isPublic, _setIsPublic] = useState(false);
+  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
@@ -34,25 +34,17 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
     setIsOpen(false);
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async (values: IUserInfoForm) => {
+    setLoading(true);
     const currentUser = JSON.parse(localStorage.getItem("user") || "");
     const accountId = currentUser.id;
-    setLoading(true);
-    const response = await axios.post("/users", {
+    const response = await axios.patch("/users", {
+      ...values,
+      languageSkills: values.languageSkills.join(", "),
       accountId,
-      name,
-      age,
-      description,
-      avatar,
-      phone,
-      backgroundImage,
-      address,
-      nationality,
-      languageSkills,
-      isPublic,
     });
     if (response.success) {
-      notification.success({ message: "Update profile success" });
+      notification.success({ message: t("auth.message.updateProfileSuccess") });
       handleCancel();
     } else {
       notification.error({ message: response.message });
@@ -68,53 +60,52 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
   return (
     <div>
       <Modal
-        title="User Info"
+        title={t("common.title.userInfo")}
         open={isOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
-        <Form layout="vertical" className="w-full">
-          <Form.Item label="Name" name="name">
-            <Input
-              value={name}
-              onChange={(e) => setName(e.currentTarget.value)}
-              placeholder="Enter name"
-            />
+        <Form
+          form={form}
+          onFinish={onSubmit}
+          layout="vertical"
+          className="w-full"
+        >
+          <Form.Item label={t("auth.form.name.label")} name="name">
+            <Input placeholder={t("auth.form.name.placeholder")} />
           </Form.Item>
-          <Form.Item label="age" name="age">
+          <Form.Item label={t("auth.form.age.label")} name="age">
             <InputNumber
-              value={age}
-              onChange={(e) => e && setAge(e)}
-              placeholder="Enter age"
+              min={18}
+              placeholder={t("auth.form.age.placeholder")}
+              className="w-full"
             />
           </Form.Item>
-          <Form.Item label="description" name="description">
-            <Input
-              value={description}
-              onChange={(e) => setDescription(e.currentTarget.value)}
-              placeholder="Enter description"
+          <Form.Item label={t("auth.form.phone.label")} name="phone">
+            <Input placeholder={t("auth.form.phone.placeholder")} />
+          </Form.Item>
+          <Form.Item
+            label={t("auth.form.nationality.label")}
+            name="nationality"
+            rules={[{ required: true }]}
+          >
+            <Select
+              placeholder={t("auth.form.nationality.placeholder")}
+              className="w-full"
+              options={languageOptions}
             />
           </Form.Item>
-          <Form.Item label="phone" name="phone">
-            <Input
-              value={phone}
-              onChange={(e) => setPhone(e.currentTarget.value)}
-              placeholder="Enter phone"
-            />
-          </Form.Item>
-          <Form.Item label="nationality" name="nationality">
-            <Input
-              value={nationality}
-              onChange={(e) => setNationality(e.currentTarget.value)}
-              placeholder="Enter nationality"
-            />
-          </Form.Item>
-          <Form.Item label="languageSkills" name="languageSkills">
-            <Input
-              value={languageSkills}
-              onChange={(e) => setLanguageSkills(e.currentTarget.value)}
-              placeholder="Enter languageSkills"
+          <Form.Item
+            label={t("auth.form.languageSkills.label")}
+            name="languageSkills"
+            rules={[{ required: true }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder={t("auth.form.languageSkills.placeholder")}
+              className="w-full"
+              options={languageOptions}
             />
           </Form.Item>
           <Form.Item>
@@ -122,9 +113,9 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
               loading={loading}
               type="primary"
               className="w-full"
-              onClick={handleSubmit}
+              htmlType="submit"
             >
-              Submit
+              {t("common.button.submit")}
             </Button>
           </Form.Item>
         </Form>

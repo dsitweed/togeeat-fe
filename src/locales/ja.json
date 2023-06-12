@@ -37,7 +37,8 @@
     },
     "message": {
       "signInSuccess": "サインイン成功",
-      "signUpSuccess": "サインアップ成功"
+      "signUpSuccess": "サインアップ成功",
+      "updateProfileSuccess": "プロファイル更新成功"
     },
     "text": {
       "forgotPassword": "パスワードをお忘れですか",
@@ -48,5 +49,54 @@
       "forgotPasswordHint": "メールアドレスを入力してください。パスワードをリセットする手順が送信されます。",
       "backToSignIn": "サインインに戻る"
     }
+  },
+  "common": {
+    "title": {
+      "home": "ホーム",
+      "quickMatching": "すぐマッチング",
+      "scheduleMatching": "予定マッチング",
+      "matchingHistory": "マッチング履歴",
+      "chat": "チャット",
+      "userInfo": "プロファイル"
+    },
+    "button": {
+      "search": "サーチ",
+      "submit": "送信",
+      "editProfile": "プロファイル編集",
+      "newQuickMatching": "すぐマッチングを作成",
+      "newscheduleMatching": "予定マッチングを作成",
+      "join": "参加する",
+      "cancel": "キャンセル"
+    }
+  },
+  "matching": {
+    "form": {
+      "date": { "label": "日付", "placeholder": "日付を入力する" },
+      "duration": { "label": "間隔", "placeholder": "間隔を入力する（分）" },
+      "desiredFood": {
+        "label": "希望の食べ物",
+        "placeholder": "希望の食べ物を入力する"
+      },
+      "conversationTopics": {
+        "label": "会話のトピック",
+        "placeholder": "会話のトピックを入力する"
+      },
+      "address": {
+        "label": "場所",
+        "placeholder": "場所を入力する"
+      }
+    },
+    "text": {
+      "host": "ホスト",
+      "participant": "参加者",
+      "joined": "参加",
+      "favorite": "お気に入り",
+      "time": "時間",
+      "expired": "期限切れ",
+      "createMatchingSuccess": "マッチングが作成されました"
+    }
+  },
+  "misc": {
+    "minute": "分"
   }
 }

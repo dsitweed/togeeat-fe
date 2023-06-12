@@ -4,6 +4,12 @@ declare namespace Response {
     count: number;
   }
 
+  interface IShortUser {
+    id: number;
+    name: string;
+    avatar: string;
+  }
+
   interface IUser {
     id: number;
     name: string;
@@ -16,8 +22,28 @@ declare namespace Response {
     languageSkills: string;
     isPublic: boolean;
   }
+
+  export interface IQuickMatching {
+    address: string;
+    conversationTopics: string;
+    createdAt: Date;
+    desiredFood: string;
+    id: number;
+    matchingDate: Date;
+    matchingType: string;
+    ownerId: number;
+    owner: IShortUser;
+    status: string;
+    updatedAt: Date;
+    userMatchings: {
+      userId: number;
+      user: IShortUser;
+    }[];
+  }
+
+  export interface IScheduleMatching extends IQuickMatching {}
 }
 
 declare namespace I18nType {
-  type Language = "en-US" | "vi-VN" | "ja-JP";
+  type Language = "en" | "vi" | "ja";
 }

@@ -6,6 +6,6 @@ interface LanguageState {
 }
 
 export const LanguageContext = createContext<LanguageState>({
-  language: (localStorage.getItem("language") || "en-US") as I18nType.Language,
+  language: (localStorage.getItem("language") || "en") as I18nType.Language,
   changeLanguage: () => {},
 });

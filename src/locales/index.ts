@@ -16,11 +16,16 @@ const resources = {
   },
 };
 
+export const initLanguage: I18nType.Language = (localStorage.getItem(
+  "language"
+) || "en") as I18nType.Language;
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: "en",
+    lng: initLanguage,
+    fallbackLng: "en",
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

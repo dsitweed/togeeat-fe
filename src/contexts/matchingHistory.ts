@@ -1,8 +1,7 @@
 import { createContext } from "react";
-import { IUserReview } from "../interfaces";
 
 interface MatchingHistoryState {
-  reviewList?: IUserReview[];
+  reviewList?: Response.IUser[];
   fetchReviewList: () => Promise<void>;
 }
 

@@ -1,18 +1,17 @@
-import { LanguageContext } from "@/contexts/language";
-import { Select } from "antd";
-import { useContext } from "react";
+import { IconLanguageHiragana } from "@tabler/icons-react";
+import { Button, Dropdown } from "antd";
+import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-
 export const languageText: Record<I18nType.Language, string> = {
-  "en-US": "English",
-  "ja-JP": "日本語",
-  "vi-VN": "Tiếng Việt",
+  en: "English",
+  ja: "日本語",
+  vi: "Tiếng Việt",
 };
 
 export const languageOptions = Object.values([
-  "en-US",
-  "ja-JP",
-  "vi-VN",
+  "en",
+  "ja",
+  "vi",
 ] as I18nType.Language[]).map((item) => ({
   value: item,
   label: languageText[item],
@@ -20,28 +19,27 @@ export const languageOptions = Object.values([
 
 function ChangeLanguage() {
   const { i18n } = useTranslation();
-  const { language, changeLanguage } = useContext(LanguageContext);
 
-  const options = Object.values([
-    "en-US",
-    "ja-JP",
-    "vi-VN",
-  ] as I18nType.Language[]).map((item) => ({
-    value: item,
-    label: languageText[item],
-  }));
+  const options = Object.values(["en", "ja", "vi"] as I18nType.Language[]).map(
+    (item) => ({
+      key: item,
+      label: (
+        <p onClick={() => handleChangeLanguage(item)}>{languageText[item]}</p>
+      ),
+    })
+  );
 
   function handleChangeLanguage(val: I18nType.Language) {
+    dayjs.locale(val);
     i18n.changeLanguage(val);
-    changeLanguage(val);
+    localStorage.setItem("language", val);
   }
   return (
-    <Select
-      value={language}
-      onChange={handleChangeLanguage}
-      options={options}
-      className="min-w-[120px]"
-    ></Select>
+    <Dropdown placement="bottom" menu={{ items: options }}>
+      <Button>
+        <IconLanguageHiragana strokeWidth={1.5} />
+      </Button>
+    </Dropdown>
   );
 }
 
