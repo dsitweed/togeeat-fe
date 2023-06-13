@@ -1,6 +1,8 @@
+import { LanguageContext } from "@/contexts/language";
 import { IconLanguageHiragana } from "@tabler/icons-react";
 import { Button, Dropdown } from "antd";
 import dayjs from "dayjs";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 export const languageText: Record<I18nType.Language, string> = {
   en: "English",
@@ -19,6 +21,7 @@ export const languageOptions = Object.values([
 
 function ChangeLanguage() {
   const { i18n } = useTranslation();
+  const { changeLanguage } = useContext(LanguageContext);
 
   const options = Object.values(["en", "ja", "vi"] as I18nType.Language[]).map(
     (item) => ({
@@ -30,6 +33,7 @@ function ChangeLanguage() {
   );
 
   function handleChangeLanguage(val: I18nType.Language) {
+    changeLanguage(val);
     dayjs.locale(val);
     i18n.changeLanguage(val);
     localStorage.setItem("language", val);

@@ -1,6 +1,7 @@
 import StonksImage from "@/assets/images/stonks.jpg";
 import UserProfilePopup from "@/components/bussiness/UserProfilePopup";
 import { AuthContext } from "@/contexts/auth";
+import { QuickMatchingContext } from "@/contexts/quickMatching";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { IconMessage, IconToolsKitchen } from "@tabler/icons-react";
 import { Avatar, Button, Image, Space, Tag, Tooltip, Typography } from "antd";
@@ -9,12 +10,15 @@ import dayjs from "dayjs";
 import { t } from "i18next";
 import { useContext, useEffect, useState } from "react";
 
-type Props = {} & Response.IQuickMatching;
+type Props = {
+  joinable?: boolean;
+} & Response.IQuickMatching;
 
-function QuickMatchingItem(props: Props) {
+function QuickMatchingItem({ joinable = false, ...props }: Props) {
   const { user } = useContext(AuthContext);
+  const { fetchMatchingList } = useContext(QuickMatchingContext);
   const [isJoined, setIsJoined] = useState(
-    props.userMatchings.filter((item) => item.userId === user?.id).length !== 0
+    props.userMatchings.filter((item) => item.user.id === user?.id).length !== 0
   );
   const [_now, setNow] = useState(Date.now());
   const time = dayjs(props.matchingDate).format("HH:mm");
@@ -42,6 +46,7 @@ function QuickMatchingItem(props: Props) {
       await axios.patch(`/matching/join/${props.id}`);
       setIsJoined(true);
     }
+    await fetchMatchingList();
   }
 
   return (
@@ -82,9 +87,10 @@ function QuickMatchingItem(props: Props) {
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2">
           <Avatar size={40} src={props.owner.avatar || "/avatar.jpg"} />
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             <p>
-              {t("matching.text.host")}: {props.owner.name}
+              {t("matching.text.host")}:{" "}
+              <Tag color="success">{props.owner.name}</Tag>
             </p>
             <div className="inline-flex">
               <p className="mr-2">{t("matching.text.favorite")}</p>
@@ -116,7 +122,7 @@ function QuickMatchingItem(props: Props) {
           </p>
           <Space size={[4, "small"]} wrap>
             {props.userMatchings.map((user) => (
-              <Tooltip title={user.user.name} key={user.userId}>
+              <Tooltip title={user.user.name} key={user.user.id}>
                 <div
                   className="cursor-pointer"
                   onClick={() => {
@@ -134,7 +140,7 @@ function QuickMatchingItem(props: Props) {
           </Space>
         </div>
         <Button
-          disabled={remain < 0}
+          disabled={!isJoined && (remain < 0 || !joinable)}
           type={"primary"}
           danger={isJoined}
           onClick={toggleIsJoined}

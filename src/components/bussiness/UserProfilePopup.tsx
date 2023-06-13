@@ -51,8 +51,6 @@ function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
       open={isOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      okText={t("common.button.ok")}
-      cancelText={t("common.button.cancel")}
     >
       {loading ? <Skeleton /> : userInfo && <UserReview {...userInfo} />}
     </Modal>

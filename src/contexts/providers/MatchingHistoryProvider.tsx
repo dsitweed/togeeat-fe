@@ -7,10 +7,15 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
     "/matching/my-matchings"
   );
   const [reviewList, setReviewList] = useState<number[]>();
+  const [lastMatchingDate, setLastMatchingDate] = useState<Date>();
 
   async function fetchReviewList() {
     const response = await apiClient.getAll();
     if (response?.success) {
+      const first = response.data.items[0];
+      if (first) {
+        setLastMatchingDate(first.matching.matchingDate);
+      }
       const userIdList: number[] = [];
       response.data.items.forEach((element) => {
         element.matching.userMatchings.map((item) => {
@@ -24,7 +29,9 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
   }
 
   return (
-    <MatchingHistoryContext.Provider value={{ reviewList, fetchReviewList }}>
+    <MatchingHistoryContext.Provider
+      value={{ lastMatchingDate, reviewList, fetchReviewList }}
+    >
       {props.children}
     </MatchingHistoryContext.Provider>
   );

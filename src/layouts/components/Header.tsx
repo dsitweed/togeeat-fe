@@ -1,11 +1,12 @@
 import ChangeLanguage from "@/components/common/ChangeLanguage";
-import UserInfoForm from "@/pages/user/components/UserInfoForm";
+import UserInfoForm from "@/components/bussiness/UserInfoForm";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { IconSearch, IconUserEdit } from "@tabler/icons-react";
 import { Layout, Button, Breadcrumb, Input, theme } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
+import { QuickMatchingContext } from "@/contexts/quickMatching";
 
 interface Props {
   collapsed: boolean;
@@ -22,13 +23,17 @@ const mapPathname: Record<string, string> = {
 
 function Header({ collapsed, setCollapsed }: Props) {
   const { t } = useTranslation();
-
+  const { fetchMatchingList } = useContext(QuickMatchingContext);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const { pathname } = useLocation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  async function handleSearch(search: string) {
+    await fetchMatchingList(search);
+  }
   return (
     <Layout.Header
       className="flex items-center px-4 h-16 border-slate-300 border-solid border-0 border-b"
@@ -52,6 +57,7 @@ function Header({ collapsed, setCollapsed }: Props) {
         <Input.Search
           placeholder={t("common.button.search")}
           className="hidden md:block"
+          onSearch={(e) => handleSearch(e)}
         />
         <Button className="md:hidden">
           <IconSearch size={20} />

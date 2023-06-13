@@ -2,7 +2,7 @@ import { ThemeConfig } from "antd";
 
 export const theme: ThemeConfig = {
   token: {
-    fontFamily: "Inter",
+    fontFamily: "Inter, 'Noto Sans JP'",
     borderRadius: 8,
     colorPrimary: "#ec4899",
     colorSuccess: "#22c55e",

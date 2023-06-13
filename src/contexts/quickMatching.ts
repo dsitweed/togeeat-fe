@@ -1,8 +1,9 @@
 import { createContext } from "react";
 
 interface QuickMatchingState {
+  loading?: boolean;
   matchingList?: Response.IQuickMatching[];
-  fetchMatchingList: () => Promise<void>;
+  fetchMatchingList: (ownerName?: string) => Promise<void>;
 }
 
 export const QuickMatchingContext = createContext<QuickMatchingState>({

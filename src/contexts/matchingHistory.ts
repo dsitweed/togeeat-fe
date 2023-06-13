@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 interface MatchingHistoryState {
   reviewList?: number[];
+  lastMatchingDate?: Date;
   fetchReviewList: () => Promise<void>;
 }
 

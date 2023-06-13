@@ -40,6 +40,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
     const matchingDate = dayjs().add(duration, "minute");
     const response = await axios.post("/matching", {
       ...sendValues,
+      duration,
       matchingDate,
       matchingType,
     });
@@ -80,7 +81,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
           rules={[{ required: true }]}
         >
           <Select
-            options={[30, 60, 90, 120].map((item) => ({
+            options={[30, 45, 60].map((item) => ({
               label: `${item} ${t("misc.minute")}`,
               value: item,
             }))}
