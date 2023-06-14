@@ -127,12 +127,12 @@ function QuickMatchingItem({ joinable = false, ...props }: Props) {
                   className="cursor-pointer"
                   onClick={() => {
                     setIsModalOpen(true);
-                    setSelectedUser(user.userId);
+                    setSelectedUser(user.user.id);
                   }}
                 >
                   <Avatar
                     src={user.user?.avatar || "/avatar.jpg"}
-                    key={user.userId}
+                    key={user.user.id}
                   />
                 </div>
               </Tooltip>

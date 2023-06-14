@@ -23,17 +23,17 @@ function ScheduleMatchingItem(props: Props) {
             <div>{t("matching.text.participant")}:</div>
             <Space size={[4, "small"]} wrap>
               {props.userMatchings.map((user) => (
-                <Tooltip title={user.user.name} key={user.userId}>
+                <Tooltip title={user.user.name} key={user.user.id}>
                   <div
                     className="cursor-pointer"
                     onClick={() => {
                       setIsModalOpen(true);
-                      setSelectedUser(user.userId);
+                      setSelectedUser(user.user.id);
                     }}
                   >
                     <Avatar
                       src={user.user?.avatar || "/avatar.jpg"}
-                      key={user.userId}
+                      key={user.user.id}
                     />
                   </div>
                 </Tooltip>

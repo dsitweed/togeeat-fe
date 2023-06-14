@@ -9,20 +9,23 @@ type UserInfo = {
   userId: number;
 };
 
+interface IReview {}
+
 function UserReviewCard({ userId }: UserInfo) {
   const { t } = useTranslation();
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+  const [reviews, setReviews] = useState<IReview[]>([]);
 
   const [userInfo, setUserInfo] = useState<Response.IUser>();
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const apiClient = useApiClient("/matching-history");
+  const apiClient = useApiClient("/review");
 
   async function handleSubmit() {
     setIsLoading(true);
-    await apiClient.create({ rating, comment });
+    await apiClient.create({ star: rating, content: comment, user2Id: userId });
     setIsLoading(false);
   }
 
@@ -33,8 +36,16 @@ function UserReviewCard({ userId }: UserInfo) {
       if (response.success) {
         setUserInfo(response.data);
       }
+      await fetchReviews();
     } catch (error) {}
     setLoading(false);
+  };
+
+  const fetchReviews = async () => {
+    const response = await axios.get("/review");
+    if (response.success) {
+      setReviews(response.data.items);
+    }
   };
 
   useEffect(() => {
@@ -83,17 +94,19 @@ function UserReviewCard({ userId }: UserInfo) {
           {t("matching.text.review")}
         </p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
-          <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
-            <Avatar src={"/avatar.jpg"} className="shadow-lg" />
-            <div className="flex flex-col w-full">
-              <div className="w-full flex flex-row justify-between">
-                <p className="font-semibold">User B</p>
-                <p className="italic">{"21/12/2022"}</p>
+          {reviews.map((review) => (
+            <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
+              <Avatar src={"/avatar.jpg"} className="shadow-lg" />
+              <div className="flex flex-col w-full">
+                <div className="w-full flex flex-row justify-between">
+                  <p className="font-semibold">{JSON.stringify(review)}</p>
+                  <p className="italic">{"21/12/2022"}</p>
+                </div>
+                <Rate disabled allowHalf defaultValue={4.5} />
+                <p>Hihi hihi</p>
               </div>
-              <Rate disabled allowHalf defaultValue={4.5} />
-              <p>Hihi hihi</p>
             </div>
-          </div>
+          ))}
           <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
             <Avatar src={"/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
