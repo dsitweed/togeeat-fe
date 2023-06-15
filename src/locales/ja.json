@@ -11,8 +11,8 @@
         "placeholder": "名前を入力"
       },
       "email": {
-        "label": "Eメール",
-        "placeholder": "メールアドレスを入力して"
+        "label": "メールアドレス",
+        "placeholder": "メールアドレスを入力"
       },
       "password": {
         "label": "パスワード",
@@ -20,19 +20,19 @@
       },
       "phone": {
         "label": "電話",
-        "placeholder": "電話番号を入力してください"
+        "placeholder": "電話番号を入力"
       },
       "nationality": {
         "label": "国籍",
-        "placeholder": "国籍を選択してください"
+        "placeholder": "国籍を選択"
       },
       "languageSkills": {
         "label": "言語スキル",
-        "placeholder": "言語スキルを選択してください"
+        "placeholder": "言語スキルを選択"
       },
       "age": {
-        "label": "年",
-        "placeholder": "年齢を入力してください"
+        "label": "年齢",
+        "placeholder": "年齢を入力"
       }
     },
     "message": {
@@ -41,12 +41,12 @@
       "updateProfileSuccess": "プロファイル更新成功"
     },
     "text": {
-      "forgotPassword": "パスワードをお忘れですか",
-      "doNotHaveAccount": "アカウントをお持ちでない場合は、",
-      "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
+      "forgotPassword": "パスワードをお忘れた？",
+      "doNotHaveAccount": "アカウントがない？",
+      "alreadyHaveAccount": "すでにアカウントがある？",
       "createNewAccount": "新しいアカウントを作成する",
-      "signInNow": "今すぐサインインしてください！",
-      "forgotPasswordHint": "メールアドレスを入力してください。パスワードをリセットする手順が送信されます。",
+      "signInNow": "今すぐサインイン！",
+      "forgotPasswordHint": "メールアドレスを入力。パスワードをリセットする手順が送信されます。",
       "backToSignIn": "サインインに戻る"
     }
   },

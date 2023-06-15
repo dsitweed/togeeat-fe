@@ -1,3 +1,4 @@
+import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 import { QuickMatchingContext } from "@/contexts/quickMatching";
 import { App, Button, Form, Input, Modal, Select } from "antd";
 import axios from "axios";
@@ -21,7 +22,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
   const { t } = useTranslation();
   const { notification } = App.useApp();
   const { fetchMatchingList } = useContext(QuickMatchingContext);
-
+  const { fetchReviewList } = useContext(MatchingHistoryContext);
   const matchingType = "QUICK";
   const [form] = Form.useForm<IQuickMatchingForm>();
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
       matchingType,
     });
     if (response.success) {
+      await fetchReviewList();
       await fetchMatchingList();
       notification.success({
         message: t("matching.text.createMatchingSuccess"),

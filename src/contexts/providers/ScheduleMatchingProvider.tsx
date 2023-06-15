@@ -9,8 +9,8 @@ function ScheduleMatchingProvider(props: PropsWithChildren) {
   const [matchingList, setMatchingList] =
     useState<Response.IScheduleMatching[]>();
 
-  async function fetchMatchingList() {
-    const response = await apiClient.getAll();
+  async function fetchMatchingList(keyword?: string) {
+    const response = await apiClient.getAll({ ownerName: keyword });
     if (response?.success) {
       setMatchingList(response.data.items);
     }

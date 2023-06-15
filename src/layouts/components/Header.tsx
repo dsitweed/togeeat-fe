@@ -7,6 +7,8 @@ import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { QuickMatchingContext } from "@/contexts/quickMatching";
+import { ScheduleMatchingContext } from "@/contexts/scheduleMatching";
+import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 
 interface Props {
   collapsed: boolean;
@@ -23,7 +25,12 @@ const mapPathname: Record<string, string> = {
 
 function Header({ collapsed, setCollapsed }: Props) {
   const { t } = useTranslation();
-  const { fetchMatchingList } = useContext(QuickMatchingContext);
+  const { fetchMatchingList: fetchQuick } = useContext(QuickMatchingContext);
+  const { fetchMatchingList: fetchSchedule } = useContext(
+    ScheduleMatchingContext
+  );
+  const { fetchReviewList: fetchHistory } = useContext(MatchingHistoryContext);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -32,7 +39,15 @@ function Header({ collapsed, setCollapsed }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   async function handleSearch(search: string) {
-    await fetchMatchingList(search);
+    const path = window.location.pathname;
+    if (path === "/") {
+      await fetchQuick(search);
+    } else if (path === "/schedule-matching") {
+      await fetchSchedule(search);
+    } else if (path === "/matching-history") {
+      await fetchHistory(search);
+    } else {
+    }
   }
   return (
     <Layout.Header

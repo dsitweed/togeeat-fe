@@ -8,7 +8,18 @@ import { useTranslation } from "react-i18next";
 
 type Props = {} & Response.IUser;
 
-interface IReview {}
+interface IReview {
+  content: string;
+  createdAt: Date;
+  id: number;
+  parentCommentId: number;
+  star: number;
+  updatedAt: Date;
+  user1: Response.IShortUser;
+  user1Id: number;
+  user2: Response.IShortUser;
+  user2Id: number;
+}
 
 function UserReview(props: Props) {
   const { t } = useTranslation();
@@ -83,15 +94,18 @@ function UserReview(props: Props) {
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
           {reviews.map((review) => (
             <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
-              <Avatar src={"/avatar.jpg"} className="shadow-lg" />
+              <Avatar
+                src={review.user1.avatar || "/avatar.jpg"}
+                className="shadow-lg"
+              />
               <div className="flex flex-col w-full">
                 <div className="w-full flex flex-row justify-between">
-                  <p className="font-semibold">{review.user?.name}</p>
+                  <p className="font-semibold">{review.user1.name}</p>
                   <p className="italic">
-                    {dayjs(review.createdAt).format("L")}
+                    {dayjs(review.createdAt).format("h:mm A MM/DD/YYYY")}
                   </p>
                 </div>
-                <Rate disabled allowHalf defaultValue={review.star} />
+                <Rate disabled defaultValue={review.star} />
                 <p>{review.content}</p>
               </div>
             </div>

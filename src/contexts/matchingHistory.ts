@@ -3,7 +3,7 @@ import { createContext } from "react";
 interface MatchingHistoryState {
   reviewList?: number[];
   lastMatchingDate?: Date;
-  fetchReviewList: () => Promise<void>;
+  fetchReviewList: (username?: string) => Promise<void>;
 }
 
 export const MatchingHistoryContext = createContext<MatchingHistoryState>({

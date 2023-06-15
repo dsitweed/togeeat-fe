@@ -2,6 +2,7 @@ import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
 import { Avatar, Button, Input, Rate, Skeleton, Space, Tag } from "antd";
 import axios from "axios";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +10,18 @@ type UserInfo = {
   userId: number;
 };
 
-interface IReview {}
+interface IReview {
+  content: string;
+  createdAt: Date;
+  id: number;
+  parentCommentId: number;
+  star: number;
+  updatedAt: Date;
+  user1: Response.IShortUser;
+  user1Id: number;
+  user2: Response.IShortUser;
+  user2Id: number;
+}
 
 function UserReviewCard({ userId }: UserInfo) {
   const { t } = useTranslation();
@@ -42,7 +54,7 @@ function UserReviewCard({ userId }: UserInfo) {
   };
 
   const fetchReviews = async () => {
-    const response = await axios.get("/review");
+    const response = await axios.get(`/review?user2Id=${userId}`);
     if (response.success) {
       setReviews(response.data.items);
     }
@@ -66,7 +78,8 @@ function UserReviewCard({ userId }: UserInfo) {
         <p className="text-base">Lasted matching: {"3 day ago"}</p>
         <Rate
           allowHalf
-          defaultValue={4.5}
+          disabled
+          defaultValue={4}
           character={<StarFilled style={{ fontSize: 32 }} />}
         />
         <p className="text-lg font-semibold">{t("matching.text.favorite")}:</p>
@@ -96,26 +109,26 @@ function UserReviewCard({ userId }: UserInfo) {
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
           {reviews.map((review) => (
             <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
-              <Avatar src={"/avatar.jpg"} className="shadow-lg" />
+              <Avatar
+                src={review.user1.avatar || "/avatar.jpg"}
+                className="shadow-lg"
+              />
               <div className="flex flex-col w-full">
                 <div className="w-full flex flex-row justify-between">
-                  <p className="font-semibold">{JSON.stringify(review)}</p>
-                  <p className="italic">{"21/12/2022"}</p>
+                  <p className="font-semibold">{review.user1.name}</p>
+                  <p className="italic">
+                    {dayjs(review.createdAt).format("h:mm A MM/DD/YYYY")}
+                  </p>
                 </div>
-                <Rate disabled allowHalf defaultValue={4.5} />
-                <p>Hihi hihi</p>
+                <Rate disabled defaultValue={review.star} />
+                <p>{review.content}</p>
               </div>
             </div>
           ))}
           <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
             <Avatar src={"/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
-              <Rate
-                disabled={isLoading}
-                allowHalf
-                value={rating}
-                onChange={setRating}
-              />
+              <Rate disabled={isLoading} value={rating} onChange={setRating} />
               <Space.Compact style={{ width: "100%" }}>
                 <Input
                   disabled={isLoading || !rating}
