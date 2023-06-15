@@ -9,12 +9,14 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
   const [reviewList, setReviewList] = useState<number[]>();
   const [lastMatchingDate, setLastMatchingDate] = useState<Date>();
 
-  async function fetchReviewList() {
-    const response = await apiClient.getAll();
+  async function fetchReviewList(username?: string) {
+    const response = await apiClient.getAll({ username });
     if (response?.success) {
       const first = response.data.items[0];
       if (first) {
         setLastMatchingDate(first.matching.matchingDate);
+      } else {
+        setLastMatchingDate(undefined);
       }
       const userIdList: number[] = [];
       response.data.items.forEach((element) => {

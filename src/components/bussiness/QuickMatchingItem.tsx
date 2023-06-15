@@ -1,6 +1,7 @@
 import StonksImage from "@/assets/images/stonks.jpg";
 import UserProfilePopup from "@/components/bussiness/UserProfilePopup";
 import { AuthContext } from "@/contexts/auth";
+import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 import { QuickMatchingContext } from "@/contexts/quickMatching";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { IconMessage, IconToolsKitchen } from "@tabler/icons-react";
@@ -17,6 +18,7 @@ type Props = {
 function QuickMatchingItem({ joinable = false, ...props }: Props) {
   const { user } = useContext(AuthContext);
   const { fetchMatchingList } = useContext(QuickMatchingContext);
+  const { fetchReviewList } = useContext(MatchingHistoryContext);
   const [isJoined, setIsJoined] = useState(
     props.userMatchings.filter((item) => item.user.id === user?.id).length !== 0
   );
@@ -41,11 +43,16 @@ function QuickMatchingItem({ joinable = false, ...props }: Props) {
   async function toggleIsJoined() {
     if (isJoined) {
       setIsJoined(false);
-      await axios.patch(`/matching/leave/${props.id}`);
+      if (user?.id === props.owner.id) {
+        await axios.delete(`/matching/${props.id}`);
+      } else {
+        await axios.patch(`/matching/leave/${props.id}`);
+      }
     } else {
       await axios.patch(`/matching/join/${props.id}`);
       setIsJoined(true);
     }
+    await fetchReviewList();
     await fetchMatchingList();
   }
 

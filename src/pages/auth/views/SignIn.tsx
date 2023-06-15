@@ -1,7 +1,7 @@
 import { AuthContext } from "@/contexts/auth";
 import { App, Button, Form, Input } from "antd";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -34,6 +34,39 @@ function SignIn() {
     }
     setLoading(false);
   };
+
+  const oneUseDefaultAccount = () => {
+    form.setFieldsValue({
+      email: "stonks@hust.edu.vn",
+      password: "123456",
+    });
+    notification.destroy();
+  };
+
+  useEffect(() => {
+    notification.info({
+      duration: 10,
+      message: "Default Account",
+      description: (
+        <div>
+          <p>
+            Email: <code>stonks@hust.edu.vn</code>
+          </p>
+          <p>
+            Password: <code>123456</code>
+          </p>
+          <Button
+            size="small"
+            type="primary"
+            className="mt-2"
+            onClick={oneUseDefaultAccount}
+          >
+            Use this account
+          </Button>
+        </div>
+      ),
+    });
+  }, []);
 
   return (
     <div className="flex flex-col md:min-w-[400px] items-center px-4 pt-2 gap-4">
