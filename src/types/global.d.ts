@@ -35,6 +35,8 @@ declare namespace Response {
     owner: IShortUser;
     status: string;
     updatedAt: Date;
+    lat: number;
+    long: number;
     userMatchings: {
       userId: number;
       user: IShortUser;
