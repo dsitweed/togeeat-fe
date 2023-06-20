@@ -3,6 +3,7 @@ import { App, Button, DatePicker, Form, Input, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Map from "./Map";
 
 type Props = {
   isOpen: boolean;
@@ -63,6 +64,7 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
       onOk={handleOk}
       onCancel={handleCancel}
       footer={null}
+      width={640}
     >
       <Form
         form={form}
@@ -70,11 +72,16 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
         layout="vertical"
         className="w-full"
       >
-        <Form.Item label={t("matching.form.date.label")} name="matchingDate">
+        <Form.Item
+          label={t("matching.form.date.label")}
+          name="matchingDate"
+          className="w-full"
+        >
           <DatePicker
             showTime={{ format: "HH:mm" }}
             format="YYYY-MM-DD HH:mm"
             placeholder={t("matching.form.date.placeholder")}
+            className="w-full"
           />
         </Form.Item>
         <Form.Item
@@ -93,6 +100,9 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
         </Form.Item>
         <Form.Item label={t("matching.form.address.label")} name="address">
           <Input placeholder={t("matching.form.address.placeholder")} />
+        </Form.Item>
+        <Form.Item>
+          <Map />
         </Form.Item>
         <Form.Item>
           <Button
