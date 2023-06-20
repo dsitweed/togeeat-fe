@@ -1,5 +1,6 @@
 import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 import { QuickMatchingContext } from "@/contexts/quickMatching";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { App, Button, Form, Input, Modal, Select } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -25,6 +26,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
   const { fetchReviewList } = useContext(MatchingHistoryContext);
   const matchingType = "QUICK";
   const [form] = Form.useForm<IQuickMatchingForm>();
+  const [pos, setPos] = useState<{ lat: number; lng: number }>();
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
@@ -44,6 +46,8 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
       duration,
       matchingDate,
       matchingType,
+      lat: pos?.lat,
+      long: pos?.lng,
     });
     if (response.success) {
       await fetchReviewList();
@@ -63,6 +67,19 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
 
     return () => {};
   }, [isOpen]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setPos(pos);
+      });
+    }
+  }, []);
+
   return (
     <Modal
       title={t("common.title.quickMatching")}
@@ -70,6 +87,7 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
       onOk={handleOk}
       onCancel={handleCancel}
       footer={null}
+      width={640}
     >
       <Form
         form={form}
@@ -113,6 +131,28 @@ function QuickMatchingForm({ isOpen, setIsOpen }: Props) {
           rules={[{ required: true }]}
         >
           <Input placeholder={t("matching.form.address.placeholder")} />
+        </Form.Item>
+        <Form.Item>
+          {pos ? (
+            <GoogleMap
+              mapContainerStyle={{
+                width: "100%",
+                height: "400px",
+              }}
+              center={pos}
+              zoom={15}
+            >
+              {/* Child components, such as markers, info windows, etc. */}
+              <MarkerF
+                draggable
+                position={pos}
+                onDragEnd={(e) => {
+                  e.latLng &&
+                    setPos({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+                }}
+              />
+            </GoogleMap>
+          ) : null}
         </Form.Item>
         <Form.Item>
           <Button

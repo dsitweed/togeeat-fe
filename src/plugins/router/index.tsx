@@ -6,9 +6,9 @@ import ChatPage from "@/pages/ChatPage";
 import MatchingHistoryPage from "@/pages/MatchingHistoryPage";
 import QuickMatchingPage from "@/pages/QuickMatchingPage";
 import ScheduleMatchingPage from "@/pages/ScheduleMatchingPage";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "",
     element: <AppLayout />,

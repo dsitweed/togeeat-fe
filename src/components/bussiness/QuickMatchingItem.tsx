@@ -1,11 +1,11 @@
-import StonksImage from "@/assets/images/stonks.jpg";
 import UserProfilePopup from "@/components/bussiness/UserProfilePopup";
 import { AuthContext } from "@/contexts/auth";
 import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 import { QuickMatchingContext } from "@/contexts/quickMatching";
 import { ArrowRightOutlined } from "@ant-design/icons";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { IconMessage, IconToolsKitchen } from "@tabler/icons-react";
-import { Avatar, Button, Image, Space, Tag, Tooltip, Typography } from "antd";
+import { Avatar, Button, Space, Tag, Tooltip, Typography } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { t } from "i18next";
@@ -59,7 +59,13 @@ function QuickMatchingItem({ joinable = false, ...props }: Props) {
   return (
     <div className="flex flex-col bg-white rounded-lg p-4 gap-4">
       <div className="-m-4">
-        <Image preview={false} src={StonksImage} alt="" />
+        <GoogleMap
+          mapContainerStyle={{ width: "100%", height: 240 }}
+          center={{ lat: props.lat, lng: props.long }}
+          zoom={15}
+        >
+          <MarkerF position={{ lat: props.lat, lng: props.long }} />
+        </GoogleMap>
       </div>
       <div className="inline-flex items-center justify-between pt-4 font-semibold">
         <Typography.Paragraph
