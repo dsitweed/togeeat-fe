@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import { theme } from "./assets/theme";
 import { router } from "./plugins/router";
 
+import { LoadScript } from "@react-google-maps/api";
 import { useContext } from "react";
 import { LanguageContext } from "./contexts/language";
 import MatchingHistoryProvider from "./contexts/providers/MatchingHistoryProvider";
@@ -34,7 +35,9 @@ function App() {
         <MatchingHistoryProvider>
           <QuickMatchingProvider>
             <ScheduleMatchingProvider>
-              <RouterProvider router={router} />
+              <LoadScript googleMapsApiKey="AIzaSyDNI_ZWPqvdS6r6gPVO50I4TlYkfkZdXh8">
+                <RouterProvider router={router} />
+              </LoadScript>
             </ScheduleMatchingProvider>
           </QuickMatchingProvider>
         </MatchingHistoryProvider>

@@ -1,9 +1,9 @@
 import { ScheduleMatchingContext } from "@/contexts/scheduleMatching";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { App, Button, DatePicker, Form, Input, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Map from "./Map";
 
 type Props = {
   isOpen: boolean;
@@ -24,6 +24,7 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
 
   const matchingType = "YOTEI";
   const [form] = Form.useForm<IScheduleMatchingForm>();
+  const [pos, setPos] = useState<{ lat: number; lng: number }>();
   const [loading, setLoading] = useState(false);
 
   const handleOk = () => {
@@ -39,6 +40,8 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
     const response = await axios.post("/matching", {
       ...values,
       matchingType,
+      lat: pos?.lat,
+      long: pos?.lng,
     });
     if (response.success) {
       await fetchMatchingList();
@@ -57,6 +60,19 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
 
     return () => {};
   }, [isOpen]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setPos(pos);
+      });
+    }
+  }, []);
+
   return (
     <Modal
       title={t("common.title.scheduleMatching")}
@@ -102,7 +118,26 @@ function ScheduleMatchingForm({ isOpen, setIsOpen }: Props) {
           <Input placeholder={t("matching.form.address.placeholder")} />
         </Form.Item>
         <Form.Item>
-          <Map />
+          {pos ? (
+            <GoogleMap
+              mapContainerStyle={{
+                width: "100%",
+                height: "400px",
+              }}
+              center={pos}
+              zoom={15}
+            >
+              {/* Child components, such as markers, info windows, etc. */}
+              <MarkerF
+                draggable
+                position={pos}
+                onDragEnd={(e) => {
+                  e.latLng &&
+                    setPos({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+                }}
+              />
+            </GoogleMap>
+          ) : null}
         </Form.Item>
         <Form.Item>
           <Button
