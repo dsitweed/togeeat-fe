@@ -8,16 +8,19 @@ function ScheduleMatchingProvider(props: PropsWithChildren) {
   );
   const [matchingList, setMatchingList] =
     useState<Response.IScheduleMatching[]>();
+  const [loading, setLoading] = useState(false);
 
   async function fetchMatchingList(keyword?: string) {
+    setLoading(true);
     const response = await apiClient.getAll({ ownerName: keyword });
     if (response?.success) {
       setMatchingList(response.data.items);
     }
+    setLoading(false);
   }
   return (
     <ScheduleMatchingContext.Provider
-      value={{ matchingList, fetchMatchingList }}
+      value={{ loading, matchingList, fetchMatchingList }}
     >
       {props.children}
     </ScheduleMatchingContext.Provider>

@@ -8,16 +8,13 @@ import { useTranslation } from "react-i18next";
 
 function ScheduleMatchingPage() {
   const { t } = useTranslation();
-  const { matchingList, fetchMatchingList } = useContext(
+  const { loading, matchingList, fetchMatchingList } = useContext(
     ScheduleMatchingContext
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const load = async () => {
-    setLoading(true);
     await fetchMatchingList();
-    setLoading(false);
   };
 
   useEffect(() => {
