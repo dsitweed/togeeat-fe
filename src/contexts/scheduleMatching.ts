@@ -1,8 +1,9 @@
 import { createContext } from "react";
 
 interface ScheduleMatchingState {
+  loading?: boolean;
   matchingList?: Response.IScheduleMatching[];
-  fetchMatchingList: (keywor?: string) => Promise<void>;
+  fetchMatchingList: (keyword?: string) => Promise<void>;
 }
 
 export const ScheduleMatchingContext = createContext<ScheduleMatchingState>({

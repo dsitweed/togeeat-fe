@@ -39,12 +39,14 @@ function Header({ collapsed, setCollapsed }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   async function handleSearch(search: string) {
-    const path = window.location.pathname;
-    if (path === "/") {
+    const path = window.location.hash;
+    console.log(path);
+
+    if (path === "#/") {
       await fetchQuick(search);
-    } else if (path === "/schedule-matching") {
+    } else if (path === "#/schedule-matching") {
       await fetchSchedule(search);
-    } else if (path === "/matching-history") {
+    } else if (path === "#/matching-history") {
       await fetchHistory(search);
     } else {
     }
