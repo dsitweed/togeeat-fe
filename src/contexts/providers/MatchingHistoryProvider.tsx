@@ -10,7 +10,7 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
   const [lastMatchingDate, setLastMatchingDate] = useState<Date>();
 
   async function fetchReviewList(username?: string) {
-    const response = await apiClient.getAll({ username });
+    const response = await apiClient.getAll({ ownerName: username });
     if (response?.success) {
       const first = response.data.items[0];
       if (first) {
