@@ -1,0 +1,10 @@
+services:
+  it3362-web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: it3362-web-app
+    container_name: it3362-web-app
+    restart: always
+    ports: 
+      - 8080:80
