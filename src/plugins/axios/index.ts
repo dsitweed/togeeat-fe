@@ -5,7 +5,7 @@ import axios, {
   RawAxiosResponseHeaders,
 } from "axios";
 
-axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
+axios.defaults.baseURL = `${import.meta.env.VITE_APP_API_URL}/api/v1`;
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
