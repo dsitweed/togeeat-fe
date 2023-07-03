@@ -12,12 +12,7 @@ import {
   Upload,
   message,
 } from "antd";
-import {
-  RcFile,
-  UploadChangeParam,
-  UploadFile,
-  UploadProps,
-} from "antd/es/upload";
+import { RcFile } from "antd/es/upload";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -51,34 +46,12 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
 
   const [imageUrl, setImageUrl] = useState<string>();
 
-  const handleChange: UploadProps["onChange"] = (
-    info: UploadChangeParam<UploadFile>
-  ) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-
   const handleOk = () => {
     setIsOpen(false);
   };
 
   const handleCancel = () => {
     setIsOpen(false);
-  };
-
-  const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result as string));
-    reader.readAsDataURL(img);
   };
 
   const beforeUpload = (file: RcFile) => {
@@ -95,9 +68,10 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
 
   const onSubmit = async (values: IUserInfoForm) => {
     setLoading(true);
-    const response = await axios.patch(`/users/${user?.id}`, {
+    const response = await axios.patch(`/users/user/update`, {
       ...values,
       languageSkills: values.languageSkills.join(", "),
+      avatar: imageUrl,
     });
     if (response.success) {
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -139,12 +113,27 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
               listType="picture-circle"
               className="avatar-uploader"
               showUploadList={false}
-              action="http://localhost:3000/api/v1/public/upload"
+              customRequest={async (option) => {
+                var formData = new FormData();
+                formData.append("image", option.file);
+
+                const response = await axios.post("/file/image", formData, {
+                  headers: {
+                    "content-type":
+                      "multipart/form-data; boundary=----WebKitFormBoundarylxPKmc0lTbNeKbx8",
+                  },
+                });
+                setImageUrl(response.data.url);
+              }}
               beforeUpload={beforeUpload}
-              onChange={handleChange}
             >
               {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+                <img
+                  src={imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%", height: "100%" }}
+                  className="rounded-full"
+                />
               ) : (
                 <IconPlus />
               )}
