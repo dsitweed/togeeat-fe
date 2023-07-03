@@ -17,8 +17,8 @@ function AppLayout() {
       <Sider collapsed={collapsed} setCollapsed={setCollapsed} />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Layout.Content className="overflow-auto">
-          <div className="mx-6 my-4 ">
+        <Layout.Content className="flex flex-col overflow-auto">
+          <div className="h-full flex-1">
             <Outlet />
           </div>
         </Layout.Content>

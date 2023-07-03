@@ -99,7 +99,7 @@ function Sider({ collapsed, setCollapsed }: Props) {
         theme="light"
         mode="inline"
         className="text-slate-500 px-2 pt-2"
-        defaultSelectedKeys={[location.pathname]}
+        defaultSelectedKeys={[location.hash.slice(1)]}
         items={siderItems()}
       />
       <div className="absolute flex justify-center w-full bottom-4">

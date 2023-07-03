@@ -19,7 +19,7 @@ function MatchingHistoryPage() {
   }, []);
 
   return (
-    <div>
+    <div className="mx-4 my-6">
       {loading ? (
         <Skeleton />
       ) : reviewList && reviewList.length ? (

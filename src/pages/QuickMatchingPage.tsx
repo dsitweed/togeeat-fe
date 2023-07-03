@@ -34,7 +34,7 @@ function QuickMatchingPage() {
   };
 
   return (
-    <div>
+    <div className="mx-4 my-6">
       <div className="flex justify-between">
         <Button
           className="mb-4"
