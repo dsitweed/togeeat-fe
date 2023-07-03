@@ -1,6 +1,7 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { PropsWithChildren, useState } from "react";
 import { MatchingHistoryContext } from "../matchingHistory";
+import { unionBy } from "lodash";
 
 function MatchingHistoryProvider(props: PropsWithChildren) {
   const apiClient = useApiClient<Response.IMatchingHistory>(
@@ -10,16 +11,22 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
   const [lastMatchingDate, setLastMatchingDate] = useState<Date>();
 
   async function fetchReviewList(username?: string) {
-    const response = await apiClient.getAll({ ownerName: username });
+    const response = await apiClient.getAll({
+      ownerName: username,
+    });
+    const response2 = await apiClient.getAll({
+      address: username,
+    });
     if (response?.success) {
-      const first = response.data.items[0];
+      const union = unionBy(response.data.items, response2?.data.items, "id");
+      const first = union[0];
       if (first) {
         setLastMatchingDate(first.matching.matchingDate);
       } else {
         setLastMatchingDate(undefined);
       }
       const userIdList: number[] = [];
-      response.data.items.forEach((element) => {
+      union.forEach((element) => {
         element.matching.userMatchings.map((item) => {
           if (!userIdList.includes(item.user.id)) {
             userIdList.push(item.user.id);

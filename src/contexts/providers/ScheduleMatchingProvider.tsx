@@ -1,4 +1,5 @@
 import { useApiClient } from "@/shared/hooks/api";
+import { union, unionBy } from "lodash";
 import { PropsWithChildren, useState } from "react";
 import { ScheduleMatchingContext } from "../scheduleMatching";
 
@@ -12,9 +13,16 @@ function ScheduleMatchingProvider(props: PropsWithChildren) {
 
   async function fetchMatchingList(keyword?: string) {
     setLoading(true);
-    const response = await apiClient.getAll({ ownerName: keyword });
+    const response = await apiClient.getAll({
+      ownerName: keyword,
+    });
+    const response2 = await apiClient.getAll({
+      address: keyword,
+    });
     if (response?.success) {
-      setMatchingList(response.data.items);
+      setMatchingList(
+        unionBy(response.data.items, response2?.data.items, "id")
+      );
     }
     setLoading(false);
   }

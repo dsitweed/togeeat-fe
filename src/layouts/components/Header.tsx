@@ -40,7 +40,6 @@ function Header({ collapsed, setCollapsed }: Props) {
 
   async function handleSearch(search: string) {
     const path = window.location.hash;
-    console.log(path);
 
     if (path === "#/") {
       await fetchQuick(search);

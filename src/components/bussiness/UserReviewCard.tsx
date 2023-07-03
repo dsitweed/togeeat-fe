@@ -1,9 +1,10 @@
+import { AuthContext } from "@/contexts/auth";
 import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
 import { Avatar, Button, Input, Rate, Skeleton, Space, Tag } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type UserInfo = {
@@ -25,6 +26,8 @@ interface IReview {
 
 function UserReviewCard({ userId }: UserInfo) {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
+
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [reviews, setReviews] = useState<IReview[]>([]);
@@ -32,19 +35,23 @@ function UserReviewCard({ userId }: UserInfo) {
   const [userInfo, setUserInfo] = useState<Response.IUser>();
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [avarageRating, setAvarageRating] = useState(0);
 
   const apiClient = useApiClient("/review");
 
   async function handleSubmit() {
     setIsLoading(true);
     await apiClient.create({ star: rating, content: comment, user2Id: userId });
+    await fetchReviews();
+    setRating(0);
+    setComment("");
     setIsLoading(false);
   }
 
   const load = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/users/${userId}`);
+      const response = await axios.get(`/users/user/${userId}`);
       if (response.success) {
         setUserInfo(response.data);
       }
@@ -56,7 +63,13 @@ function UserReviewCard({ userId }: UserInfo) {
   const fetchReviews = async () => {
     const response = await axios.get(`/review?user2Id=${userId}`);
     if (response.success) {
+      const avarage = response.data.items.reduce(
+        (accumulator: number, currentValue: any) =>
+          accumulator + currentValue.star,
+        0
+      );
       setReviews(response.data.items);
+      setAvarageRating(avarage / response.data.count);
     }
   };
 
@@ -79,7 +92,7 @@ function UserReviewCard({ userId }: UserInfo) {
         <Rate
           allowHalf
           disabled
-          defaultValue={4}
+          defaultValue={avarageRating}
           character={<StarFilled style={{ fontSize: 32 }} />}
         />
         <p className="text-lg font-semibold">{t("matching.text.favorite")}:</p>
@@ -108,7 +121,10 @@ function UserReviewCard({ userId }: UserInfo) {
         </p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
           {reviews.map((review) => (
-            <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
+            <div
+              key={review.id}
+              className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg"
+            >
               <Avatar
                 src={review.user1.avatar || "/avatar.jpg"}
                 className="shadow-lg"
@@ -126,7 +142,7 @@ function UserReviewCard({ userId }: UserInfo) {
             </div>
           ))}
           <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
-            <Avatar src={"/avatar.jpg"} className="shadow-lg" />
+            <Avatar src={user?.avatar || "/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
               <Rate disabled={isLoading} value={rating} onChange={setRating} />
               <Space.Compact style={{ width: "100%" }}>

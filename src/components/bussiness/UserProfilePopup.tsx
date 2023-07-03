@@ -26,7 +26,7 @@ function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
   const load = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/users/${userId}`);
+      const response = await axios.get(`/users/user/${userId}`);
       if (response.success) {
         setUserInfo(response.data);
       }

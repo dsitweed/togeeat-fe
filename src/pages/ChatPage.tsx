@@ -52,11 +52,9 @@ function ChatPage(): JSX.Element {
   };
 
   useEffect(() => {
-    console.log(currentRoomId);
-
     socket
       ?.emitWithAck("getMessages", {
-        currentRoomId,
+        groupId: currentRoomId,
         limit: 100,
         offset: 0,
       })
@@ -125,6 +123,12 @@ function ChatPage(): JSX.Element {
       // TODO: process data
       console.log("on createMessage: ", data);
       setMessages((prev) => [...prev, data]);
+      var elem = document.getElementById("message-list");
+      if (elem) {
+        elem.scrollTo({
+          top: elem.scrollHeight,
+        });
+      }
     });
 
     return () => {
@@ -172,7 +176,10 @@ function ChatPage(): JSX.Element {
               </Tooltip>
             ))}
         </Avatar.Group>
-        <div className="flex flex-col h-full gap-2 py-4 overflow-y-scroll">
+        <div
+          id="message-list"
+          className="flex flex-col h-full gap-2 py-4 overflow-y-scroll"
+        >
           {messages.map((message, index) => (
             <div
               style={{

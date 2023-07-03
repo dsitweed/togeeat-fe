@@ -1,9 +1,10 @@
+import { AuthContext } from "@/contexts/auth";
 import { useApiClient } from "@/shared/hooks/api";
 import { StarFilled } from "@ant-design/icons";
 import { Avatar, Button, Input, Rate, Space, Tag } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {} & Response.IUser;
@@ -23,11 +24,12 @@ interface IReview {
 
 function UserReview(props: Props) {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState<IReview[]>([]);
-
+  const [avarageRating, setAvarageRating] = useState(0);
   const apiClient = useApiClient("/review");
 
   async function handleSubmit() {
@@ -37,13 +39,22 @@ function UserReview(props: Props) {
       content: comment,
       user2Id: props.id,
     });
+    await fetchReviews();
+    setRating(0);
+    setComment("");
     setIsLoading(false);
   }
 
   const fetchReviews = async () => {
-    const response = await axios.get("/review");
+    const response = await axios.get(`/review?user2Id=${props.id}`);
     if (response.success) {
+      const avarage = response.data.items.reduce(
+        (accumulator: number, currentValue: any) =>
+          accumulator + currentValue.star,
+        0
+      );
       setReviews(response.data.items);
+      setAvarageRating(avarage / response.data.count);
     }
   };
 
@@ -57,14 +68,15 @@ function UserReview(props: Props) {
         <Avatar
           shape="square"
           size={96}
-          src={props.avatar && "/avatar.jpg"}
+          src={props.avatar || "/avatar.jpg"}
           className="border border-solid border-slate-500"
         />
         <p className="text-2xl font-semibold">{props.name}</p>
-        <p className="text-base">Lasted matching: {"3 day ago"}</p>
+        {/* <p className="text-base">Lasted matching: {"3 day ago"}</p> */}
         <Rate
           allowHalf
-          defaultValue={4.5}
+          disabled
+          value={avarageRating}
           character={<StarFilled style={{ fontSize: 32 }} />}
         />
         <p className="text-lg font-semibold">{t("matching.text.favorite")}:</p>
@@ -93,7 +105,10 @@ function UserReview(props: Props) {
         </p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
           {reviews.map((review) => (
-            <div className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg">
+            <div
+              key={review.id}
+              className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg"
+            >
               <Avatar
                 src={review.user1.avatar || "/avatar.jpg"}
                 className="shadow-lg"
@@ -102,7 +117,7 @@ function UserReview(props: Props) {
                 <div className="w-full flex flex-row justify-between">
                   <p className="font-semibold">{review.user1.name}</p>
                   <p className="italic">
-                    {dayjs(review.createdAt).format("h:mm A MM/DD/YYYY")}
+                    {dayjs(review.createdAt).format("h:mm A YYYY/MM/DD")}
                   </p>
                 </div>
                 <Rate disabled defaultValue={review.star} />
@@ -111,7 +126,7 @@ function UserReview(props: Props) {
             </div>
           ))}
           <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
-            <Avatar src={"/avatar.jpg"} className="shadow-lg" />
+            <Avatar src={user?.avatar || "/avatar.jpg"} className="shadow-lg" />
             <div className="flex flex-col gap-2 w-full">
               <Rate
                 disabled={isLoading}

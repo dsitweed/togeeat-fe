@@ -1,6 +1,7 @@
 import { useApiClient } from "@/shared/hooks/api";
 import { PropsWithChildren, useState } from "react";
 import { QuickMatchingContext } from "../quickMatching";
+import { unionBy } from "lodash";
 
 function QuickMatchingProvider(props: PropsWithChildren) {
   const apiClient = useApiClient<Response.IQuickMatching>(
@@ -11,8 +12,13 @@ function QuickMatchingProvider(props: PropsWithChildren) {
   async function fetchMatchingList(ownerName?: string) {
     setLoading(true);
     const response = await apiClient.getAll({ ownerName });
+    const response2 = await apiClient.getAll({
+      address: ownerName,
+    });
     if (response?.success) {
-      setMatchingList(response.data.items);
+      setMatchingList(
+        unionBy(response.data.items, response2?.data.items, "id")
+      );
     }
     setLoading(false);
   }
