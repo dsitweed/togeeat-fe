@@ -1,5 +1,5 @@
 import { useApiClient } from "@/shared/hooks/api";
-import { union, unionBy } from "lodash";
+import { unionBy } from "lodash";
 import { PropsWithChildren, useState } from "react";
 import { ScheduleMatchingContext } from "../scheduleMatching";
 
