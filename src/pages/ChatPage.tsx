@@ -88,7 +88,7 @@ function ChatPage(): JSX.Element {
     // load all rooms
     sock
       .emitWithAck("getGroups", {
-        limit: 10,
+        limit: 1000,
         offset: 0,
       })
       .then((data) => {
