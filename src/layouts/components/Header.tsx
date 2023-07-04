@@ -1,14 +1,14 @@
-import ChangeLanguage from "@/components/common/ChangeLanguage";
 import UserInfoForm from "@/components/bussiness/UserInfoForm";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import ChangeLanguage from "@/components/common/ChangeLanguage";
+import { MatchingHistoryContext } from "@/contexts/matchingHistory";
+import { QuickMatchingContext } from "@/contexts/quickMatching";
+import { ScheduleMatchingContext } from "@/contexts/scheduleMatching";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IconSearch, IconUserEdit } from "@tabler/icons-react";
-import { Layout, Button, Breadcrumb, Input, theme, Typography } from "antd";
+import { Breadcrumb, Button, Input, Layout, theme } from "antd";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { QuickMatchingContext } from "@/contexts/quickMatching";
-import { ScheduleMatchingContext } from "@/contexts/scheduleMatching";
-import { MatchingHistoryContext } from "@/contexts/matchingHistory";
 
 interface Props {
   collapsed: boolean;
