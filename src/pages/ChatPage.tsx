@@ -92,26 +92,6 @@ function ChatPage(): JSX.Element {
         offset: 0,
       })
       .then((data) => {
-        /**
-         * data = {
-         *  count: number,
-         *  items: [
-         *    {
-         *     createdAt: "2023-07-01T04:33:34.759Z"
-         *     id: "dd99d18b-fd28-4126-9b71-7040943fd9a9"
-         *     isGroup: false
-         *     lastMessageAt: "2023-07-01T04:33:34.759Z"
-         *     name: "Hoc hoi",
-         *     users: [
-         * {id: 1, name: 'Trịnh Đức Khang', avatar: 'https://ionicframework.com/docs/img/demos/avatar.svg'}
-         * {id: 2, name: 'Trịnh Đức Khang', avatar: 'https://ionicframework.com/docs/img/demos/avatar.svg'}
-         * {id: 3, name: 'Nguyen Van Ky', avatar: 'https://ionicframework.com/docs/img/demos/avatar.svg'}
-         * ],
-         *    },
-         *  ]
-         * }
-         */
-        console.log("data", data);
         setRooms(data.items);
       })
       .catch((err) => {
@@ -120,8 +100,6 @@ function ChatPage(): JSX.Element {
       });
 
     sock.on("createMessage", (data) => {
-      // TODO: process data
-      console.log("on createMessage: ", data);
       setMessages((prev) => [...prev, data]);
       var elem = document.getElementById("message-list");
       if (elem) {
@@ -149,10 +127,18 @@ function ChatPage(): JSX.Element {
             key={index}
             onClick={() => setCurrentRoomId(room.id)}
           >
+            {/* {JSON.stringify(room)} */}
             <Card.Meta
-              avatar={<Avatar src={room.users[1].avatar} />}
-              title={room?.users
-                .map((user: Response.IShortUser) => user.name)
+              avatar={
+                <Avatar
+                  src={
+                    room.usersGroups?.at(1)?.user?.avatar ||
+                    room.usersGroups?.at(0)?.user?.avatar
+                  }
+                />
+              }
+              title={room?.usersGroups
+                ?.map((user: any) => user.user.name)
                 .join(", ")}
               description={
                 <div className="flex flex-row justify-between">
@@ -170,9 +156,9 @@ function ChatPage(): JSX.Element {
         <Avatar.Group className="pb-4 border-b">
           {rooms
             .find((item) => item.id === currentRoomId)
-            ?.users.map((user: Response.IUser) => (
-              <Tooltip title={user.name}>
-                <Avatar src={user.avatar} />
+            ?.usersGroups?.map((user: any) => (
+              <Tooltip title={user.user.name}>
+                <Avatar src={user.user.avatar} />
               </Tooltip>
             ))}
         </Avatar.Group>
@@ -180,7 +166,7 @@ function ChatPage(): JSX.Element {
           id="message-list"
           className="flex flex-col h-full gap-2 py-4 overflow-y-scroll"
         >
-          {messages.map((message, index) => (
+          {messages?.map((message, index) => (
             <div
               style={{
                 alignSelf:

@@ -2,7 +2,7 @@ import ChangeLanguage from "@/components/common/ChangeLanguage";
 import UserInfoForm from "@/components/bussiness/UserInfoForm";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { IconSearch, IconUserEdit } from "@tabler/icons-react";
-import { Layout, Button, Breadcrumb, Input, theme } from "antd";
+import { Layout, Button, Breadcrumb, Input, theme, Typography } from "antd";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
