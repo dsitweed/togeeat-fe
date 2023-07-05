@@ -55,7 +55,7 @@ function QuickMatchingPage() {
         <Skeleton />
       ) : matchingList && matchingList.length ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-          {matchingList.map((item, index) => (
+          {matchingList?.map((item, index) => (
             <QuickMatchingItem {...item} key={index} joinable={joinable()} />
           ))}
         </div>

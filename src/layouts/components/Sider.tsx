@@ -50,7 +50,7 @@ function Sider({ collapsed, setCollapsed }: Props) {
   const navigate = useNavigate();
   const siderItems = useCallback(
     () =>
-      items.map((item) => ({
+      items?.map((item) => ({
         ...item,
         label: t(item.label),
         onClick: () => navigate(item.key),

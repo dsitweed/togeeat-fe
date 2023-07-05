@@ -24,7 +24,7 @@ function MatchingHistoryPage() {
         <Skeleton />
       ) : reviewList && reviewList.length ? (
         <div className="flex flex-col gap-6">
-          {reviewList.map((item, index) => (
+          {reviewList?.map((item, index) => (
             <UserReviewCard userId={item} key={index} />
           ))}
         </div>

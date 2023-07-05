@@ -80,7 +80,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
       avatar: imageUrl,
     });
     console.log(hobby);
-    hobby.map(async (item) => {
+    hobby?.map(async (item) => {
       await axios.patch(`/users/hobby/assign/${item}`);
     });
 
@@ -223,7 +223,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
             <Select
               mode="multiple"
               placeholder={t("auth.form.hobby.placeholder")}
-              defaultValue={user?.hobbies.map((item) => item.hobbyId)}
+              defaultValue={user?.hobbies?.map((item) => item.hobbyId)}
               dropdownRender={(menu) => (
                 <>
                   {menu}
@@ -245,7 +245,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
                   </Space>
                 </>
               )}
-              options={items.map((item) => ({
+              options={items?.map((item) => ({
                 label: item.name,
                 value: item.id,
               }))}

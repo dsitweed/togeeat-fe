@@ -165,9 +165,9 @@ function ChatPage(): JSX.Element {
         }}
       >
         <div>{totalRoomCount} rooms:</div>
-        {rooms.map((room, index) => (
+        {rooms?.map((room, index) => (
           <button key={index} onClick={() => setCurrentRoomId(room.id)}>
-            {room.users.map((user: any) => user.name).join(", ")}
+            {room.users?.map((user: any) => user.name).join(", ")}
           </button>
         ))}
         {/* <div>
@@ -183,7 +183,7 @@ function ChatPage(): JSX.Element {
       >
         <div>{totalMessagesCount} messages:</div>
         <div>
-          {messages.map((message, index) => (
+          {messages?.map((message, index) => (
             <div key={index}>
               {message.sender.name}: {message.content}
             </div>

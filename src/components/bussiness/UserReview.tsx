@@ -104,7 +104,7 @@ function UserReview(props: Props) {
           {t("matching.text.review")}
         </p>
         <div className="flex flex-col gap-4 border border-solid rounded-lg border-slate-300 p-4">
-          {reviews.map((review) => (
+          {reviews?.map((review) => (
             <div
               key={review.id}
               className="flex flex-row gap-2 bg-slate-100 px-4 py-3 rounded-lg"

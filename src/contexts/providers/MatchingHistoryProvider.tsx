@@ -27,7 +27,7 @@ function MatchingHistoryProvider(props: PropsWithChildren) {
       }
       const userIdList: number[] = [];
       union.forEach((element) => {
-        element.matching.userMatchings.map((item) => {
+        element.matching.userMatchings?.map((item) => {
           if (!userIdList.includes(item.user.id)) {
             userIdList.push(item.user.id);
           }

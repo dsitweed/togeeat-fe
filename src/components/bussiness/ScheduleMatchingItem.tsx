@@ -116,7 +116,7 @@ function ScheduleMatchingItem(props: Props) {
             {t("matching.text.participant")}: {props.userMatchings.length}
           </p>
           <Space size={[4, "small"]} wrap>
-            {props.userMatchings.map((user) => (
+            {props.userMatchings?.map((user) => (
               <Tooltip title={user.user.name} key={user.user.id}>
                 <div
                   className="cursor-pointer"
