@@ -42,7 +42,7 @@ function ScheduleMatchingPage() {
       {loading ? (
         <Skeleton />
       ) : matchingList ? (
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {matchingList?.map((item, index) => (
             <ScheduleMatchingItem {...item} key={index} />
           ))}

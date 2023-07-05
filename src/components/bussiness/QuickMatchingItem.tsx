@@ -108,8 +108,11 @@ function QuickMatchingItem({ joinable = false, ...props }: Props) {
             <div className="inline-flex">
               <p className="mr-2">{t("matching.text.favorite")}</p>
               <Space size={[0, "small"]} wrap>
-                <Tag color="blue">Soccer</Tag>
-                <Tag color="blue">Chess</Tag>
+                {props.owner?.hobbies?.map((item: any) => (
+                  <Tag key={item.hobbyId} color="blue">
+                    {item.hobby.name}
+                  </Tag>
+                ))}
               </Space>
             </div>
           </div>

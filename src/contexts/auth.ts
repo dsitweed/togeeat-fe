@@ -12,6 +12,7 @@ interface IUser {
   nationality: string;
   languageSkills: string;
   isPublic: true;
+  hobbies: any[];
 }
 
 interface AuthState {

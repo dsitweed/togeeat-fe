@@ -1,20 +1,24 @@
 import { languageOptions } from "@/components/common/ChangeLanguage";
 import { AuthContext } from "@/contexts/auth";
+import { PlusOutlined } from "@ant-design/icons";
 import { IconPlus } from "@tabler/icons-react";
 import {
   App,
   Button,
+  Divider,
   Form,
   Input,
   InputNumber,
+  InputRef,
   Modal,
   Select,
+  Space,
   Upload,
   message,
 } from "antd";
 import { RcFile } from "antd/es/upload";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -30,6 +34,7 @@ interface IUserInfoForm {
   address: string;
   nationality: string;
   languageSkills: string[];
+  hobby: any[];
 }
 
 /**
@@ -68,11 +73,17 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
 
   const onSubmit = async (values: IUserInfoForm) => {
     setLoading(true);
+    const { hobby, ...sendValues } = values;
     const response = await axios.patch(`/users/user/update`, {
-      ...values,
+      ...sendValues,
       languageSkills: values.languageSkills.join(", "),
       avatar: imageUrl,
     });
+    console.log(hobby);
+    hobby.map(async (item) => {
+      await axios.patch(`/users/hobby/assign/${item}`);
+    });
+
     if (response.success) {
       localStorage.setItem("user", JSON.stringify(response.data));
       notification.success({ message: t("auth.message.updateProfileSuccess") });
@@ -82,6 +93,35 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
     }
     setLoading(false);
   };
+
+  const [items, setItems] = useState<any[]>([]);
+  const [name, setName] = useState("");
+  const inputRef = useRef<InputRef>(null);
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const addItem = async (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  ) => {
+    e.preventDefault();
+    await axios.post("/users/hobby", { name });
+    const response = await axios.get("/users/hobby");
+    setItems(response.data);
+    setName("");
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      const response = await axios.get("/users/hobby");
+      setItems(response.data);
+    };
+    load();
+  }, []);
 
   useEffect(() => {
     setIsOpen(isOpen);
@@ -173,6 +213,42 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
               placeholder={t("auth.form.languageSkills.placeholder")}
               className="w-full"
               options={languageOptions}
+            />
+          </Form.Item>
+          <Form.Item
+            label={t("auth.form.hobby.label")}
+            name="hobby"
+            rules={[{ required: true }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder={t("auth.form.hobby.placeholder")}
+              defaultValue={user?.hobbies.map((item) => item.hobbyId)}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: "8px 0" }} />
+                  <Space style={{ padding: "0 8px 4px" }}>
+                    <Input
+                      placeholder="Please enter item"
+                      ref={inputRef}
+                      value={name}
+                      onChange={onNameChange}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={addItem}
+                    >
+                      {t("common.button.ok")}
+                    </Button>
+                  </Space>
+                </>
+              )}
+              options={items.map((item) => ({
+                label: item.name,
+                value: item.id,
+              }))}
             />
           </Form.Item>
           <Form.Item>

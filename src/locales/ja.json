@@ -33,6 +33,10 @@
       "age": {
         "label": "年齢",
         "placeholder": "年齢を入力"
+      },
+      "hobby": {
+        "label": "趣味",
+        "placeholder": "趣味を入力"
       }
     },
     "message": {

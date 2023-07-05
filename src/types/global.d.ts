@@ -8,6 +8,7 @@ declare namespace Response {
     id: number;
     name: string;
     avatar: string;
+    hobbies: any[];
   }
 
   interface IUser {
