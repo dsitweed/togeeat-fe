@@ -81,8 +81,11 @@ function UserReview(props: Props) {
         />
         <p className="text-lg font-semibold">{t("matching.text.favorite")}:</p>
         <Space size={[0, "small"]} wrap>
-          <Tag color="blue">Soccer</Tag>
-          <Tag color="blue">Chess</Tag>
+          {user?.hobbies?.map((item) => (
+            <Tag key={item.hobbyId} color="blue">
+              {item.hobby?.name}
+            </Tag>
+          ))}
         </Space>
         <div className="w-full flex flex-col justify-start text-base mt-4 gap-1">
           <p>
@@ -92,10 +95,12 @@ function UserReview(props: Props) {
             {t("auth.form.phone.label")}: {props.phone}
           </p>
           <p>
-            {t("auth.form.nationality.label")}: {props.nationality}
+            {t("auth.form.nationality.label")}:{" "}
+            {t(`nationality.${props.nationality}`)}
           </p>
           <p>
-            {t("auth.form.languageSkills.label")}: {props.languageSkills}
+            {t("auth.form.languageSkills.label")}:{" "}
+            {t(`language.${props.nationality}`)}
           </p>
         </div>
       </div>
@@ -125,33 +130,38 @@ function UserReview(props: Props) {
               </div>
             </div>
           ))}
-          <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
-            <Avatar src={user?.avatar || "/avatar.jpg"} className="shadow-lg" />
-            <div className="flex flex-col gap-2 w-full">
-              <Rate
-                disabled={isLoading}
-                allowHalf
-                value={rating}
-                onChange={setRating}
+          {user?.id !== props.id && (
+            <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
+              <Avatar
+                src={user?.avatar || "/avatar.jpg"}
+                className="shadow-lg"
               />
-              <Space.Compact style={{ width: "100%" }}>
-                <Input
-                  disabled={isLoading || !rating}
-                  value={comment}
-                  onChange={(e) => setComment(e.currentTarget.value)}
-                  onPressEnter={handleSubmit}
-                  placeholder={t("matching.form.comment.placeholder")}
+              <div className="flex flex-col gap-2 w-full">
+                <Rate
+                  disabled={isLoading}
+                  allowHalf
+                  value={rating}
+                  onChange={setRating}
                 />
-                <Button
-                  loading={isLoading}
-                  type="primary"
-                  onClick={handleSubmit}
-                >
-                  {t("common.button.submit")}
-                </Button>
-              </Space.Compact>
+                <Space.Compact style={{ width: "100%" }}>
+                  <Input
+                    disabled={isLoading || !rating}
+                    value={comment}
+                    onChange={(e) => setComment(e.currentTarget.value)}
+                    onPressEnter={handleSubmit}
+                    placeholder={t("matching.form.comment.placeholder")}
+                  />
+                  <Button
+                    loading={isLoading}
+                    type="primary"
+                    onClick={handleSubmit}
+                  >
+                    {t("common.button.submit")}
+                  </Button>
+                </Space.Compact>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

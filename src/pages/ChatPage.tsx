@@ -120,7 +120,6 @@ function ChatPage(): JSX.Element {
   ) : socket ? (
     <div className="flex h-full">
       <div className="flex flex-col min-w-[360px] px-2 py-4 gap-4 bg-primary bg-opacity-10 overflow-auto">
-        <Input.Search />
         {rooms?.map((room, index) => (
           <Card
             className="cursor-pointer"

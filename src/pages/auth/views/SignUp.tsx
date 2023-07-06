@@ -1,4 +1,7 @@
-import { languageOptions } from "@/components/common/ChangeLanguage";
+import {
+  languageOptions,
+  nationalityOptions,
+} from "@/components/common/ChangeLanguage";
 import { AuthContext } from "@/contexts/auth";
 import { App, Button, Form, Input, InputNumber, Select } from "antd";
 import axios from "axios";
@@ -99,7 +102,7 @@ function SignUp() {
             <Select
               placeholder={t("auth.form.nationality.placeholder")}
               className="w-full"
-              options={languageOptions}
+              options={nationalityOptions}
             />
           </Form.Item>
         </div>

@@ -36,7 +36,7 @@ function UserProfilePopup({ isOpen, setIsOpen, userId }: Props) {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     setIsOpen(isOpen);

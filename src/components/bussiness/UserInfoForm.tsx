@@ -1,4 +1,7 @@
-import { languageOptions } from "@/components/common/ChangeLanguage";
+import {
+  languageOptions,
+  nationalityOptions,
+} from "@/components/common/ChangeLanguage";
 import { AuthContext } from "@/contexts/auth";
 import { PlusOutlined } from "@ant-design/icons";
 import { IconPlus } from "@tabler/icons-react";
@@ -45,11 +48,11 @@ interface IUserInfoForm {
 function UserInfoForm({ isOpen, setIsOpen }: Props) {
   const { t } = useTranslation();
   const { notification } = App.useApp();
-  const { user } = useContext(AuthContext);
+  const { user, fetchUserFromStorage } = useContext(AuthContext);
   const [form] = Form.useForm<IUserInfoForm>();
   const [loading, setLoading] = useState(false);
 
-  const [imageUrl, setImageUrl] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string | undefined>(user?.avatar);
 
   const handleOk = () => {
     setIsOpen(false);
@@ -85,7 +88,9 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
     });
 
     if (response.success) {
-      localStorage.setItem("user", JSON.stringify(response.data));
+      const userResponse = await axios.get(`/users/user/${user?.id}`);
+      localStorage.setItem("user", JSON.stringify(userResponse.data));
+      fetchUserFromStorage();
       notification.success({ message: t("auth.message.updateProfileSuccess") });
       handleCancel();
     } else {
@@ -140,7 +145,11 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
         <Form
           initialValues={
             user
-              ? { ...user, languageSkills: user.languageSkills.split(", ") }
+              ? {
+                  ...user,
+                  languageSkills: user.languageSkills.split(", "),
+                  hobby: user?.hobbies?.map((item) => item.hobbyId),
+                }
               : undefined
           }
           form={form}
@@ -200,7 +209,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
             <Select
               placeholder={t("auth.form.nationality.placeholder")}
               className="w-full"
-              options={languageOptions}
+              options={nationalityOptions}
             />
           </Form.Item>
           <Form.Item
@@ -215,15 +224,10 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
               options={languageOptions}
             />
           </Form.Item>
-          <Form.Item
-            label={t("auth.form.hobby.label")}
-            name="hobby"
-            rules={[{ required: true }]}
-          >
+          <Form.Item label={t("auth.form.hobby.label")} name="hobby">
             <Select
               mode="multiple"
               placeholder={t("auth.form.hobby.placeholder")}
-              defaultValue={user?.hobbies?.map((item) => item.hobbyId)}
               dropdownRender={(menu) => (
                 <>
                   {menu}

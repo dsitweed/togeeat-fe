@@ -141,28 +141,37 @@ function UserReviewCard({ userId }: UserInfo) {
               </div>
             </div>
           ))}
-          <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
-            <Avatar src={user?.avatar || "/avatar.jpg"} className="shadow-lg" />
-            <div className="flex flex-col gap-2 w-full">
-              <Rate disabled={isLoading} value={rating} onChange={setRating} />
-              <Space.Compact style={{ width: "100%" }}>
-                <Input
-                  disabled={isLoading || !rating}
-                  value={comment}
-                  onChange={(e) => setComment(e.currentTarget.value)}
-                  onPressEnter={handleSubmit}
-                  placeholder={t("matching.form.comment.placeholder")}
+          {user?.id !== userId && (
+            <div className="flex flex-row gap-2 bg-primary bg-opacity-5 px-4 py-3 rounded-lg">
+              <Avatar
+                src={user?.avatar || "/avatar.jpg"}
+                className="shadow-lg"
+              />
+              <div className="flex flex-col gap-2 w-full">
+                <Rate
+                  disabled={isLoading}
+                  value={rating}
+                  onChange={setRating}
                 />
-                <Button
-                  loading={isLoading}
-                  type="primary"
-                  onClick={handleSubmit}
-                >
-                  {t("common.button.submit")}
-                </Button>
-              </Space.Compact>
+                <Space.Compact style={{ width: "100%" }}>
+                  <Input
+                    disabled={isLoading || !rating}
+                    value={comment}
+                    onChange={(e) => setComment(e.currentTarget.value)}
+                    onPressEnter={handleSubmit}
+                    placeholder={t("matching.form.comment.placeholder")}
+                  />
+                  <Button
+                    loading={isLoading}
+                    type="primary"
+                    onClick={handleSubmit}
+                  >
+                    {t("common.button.submit")}
+                  </Button>
+                </Space.Compact>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
