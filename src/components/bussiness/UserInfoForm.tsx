@@ -147,7 +147,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
             user
               ? {
                   ...user,
-                  languageSkills: user.languageSkills.split(", "),
+                  languageSkills: user?.languageSkills?.split(", "),
                   hobby: user?.hobbies?.map((item) => item.hobbyId),
                 }
               : undefined
@@ -157,7 +157,7 @@ function UserInfoForm({ isOpen, setIsOpen }: Props) {
           layout="vertical"
           className="w-full"
         >
-          <Form.Item label="Avatar">
+          <Form.Item label="Avatar" required={false}>
             <Upload
               listType="picture-circle"
               className="avatar-uploader"

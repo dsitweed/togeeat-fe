@@ -72,7 +72,7 @@ function UserReview(props: Props) {
           className="border border-solid border-slate-500"
         />
         <p className="text-2xl font-semibold">{props.name}</p>
-        {/* <p className="text-base">Lasted matching: {"3 day ago"}</p> */}
+        <p className="text-base">最後のマッチング: {"3 日前"}</p>
         <Rate
           allowHalf
           disabled
@@ -91,16 +91,19 @@ function UserReview(props: Props) {
           <p>
             {t("auth.form.age.label")}: {props.age}
           </p>
-          <p>
+          {/* <p>
             {t("auth.form.phone.label")}: {props.phone}
-          </p>
+          </p> */}
           <p>
             {t("auth.form.nationality.label")}:{" "}
             {t(`nationality.${props.nationality}`)}
           </p>
           <p>
             {t("auth.form.languageSkills.label")}:{" "}
-            {t(`language.${props.nationality}`)}
+            {props.languageSkills
+              ?.split(", ")
+              .map((item) => t(`language.${item}`))
+              .join(", ")}
           </p>
         </div>
       </div>

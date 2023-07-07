@@ -88,7 +88,7 @@ function UserReviewCard({ userId }: UserInfo) {
           className="border border-solid border-slate-500"
         />
         <p className="text-2xl font-semibold">{userInfo?.name}</p>
-        <p className="text-base">Lasted matching: {"3 day ago"}</p>
+        <p className="text-base">最後のマッチング: {"3 日前"}</p>
         <Rate
           allowHalf
           disabled
@@ -97,21 +97,29 @@ function UserReviewCard({ userId }: UserInfo) {
         />
         <p className="text-lg font-semibold">{t("matching.text.favorite")}:</p>
         <Space size={[0, "small"]} wrap>
-          <Tag color="blue">Soccer</Tag>
-          <Tag color="blue">Chess</Tag>
+          {userInfo?.hobbies?.map((item) => (
+            <Tag key={item.hobbyId} color="blue">
+              {item.hobby?.name}
+            </Tag>
+          ))}
         </Space>
         <div className="w-full flex flex-col justify-start text-base mt-4 gap-1">
           <p>
             {t("auth.form.age.label")}: {userInfo?.age}
           </p>
-          <p>
+          {/* <p>
             {t("auth.form.phone.label")}: {userInfo?.phone}
+          </p> */}
+          <p>
+            {t("auth.form.nationality.label")}:{" "}
+            {t(`nationality.${userInfo?.nationality}`)}
           </p>
           <p>
-            {t("auth.form.nationality.label")}: {userInfo?.nationality}
-          </p>
-          <p>
-            {t("auth.form.languageSkills.label")}: {userInfo?.languageSkills}
+            {t("auth.form.languageSkills.label")}:{" "}
+            {userInfo?.languageSkills
+              ?.split(", ")
+              .map((item) => t(`language.${item}`))
+              .join(", ")}
           </p>
         </div>
       </div>

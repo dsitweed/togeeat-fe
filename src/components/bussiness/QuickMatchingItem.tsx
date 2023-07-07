@@ -130,7 +130,7 @@ function QuickMatchingItem({ joinable = false, ...props }: Props) {
             {t("matching.text.time")}: {time}
           </p>
           {remain >= 0 ? (
-            <p>{remain} min left</p>
+            <p>残り{remain}分</p>
           ) : (
             <Tag color="red" className="mr-0">
               {t("matching.text.expired")}

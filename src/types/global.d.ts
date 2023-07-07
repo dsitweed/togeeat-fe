@@ -22,6 +22,7 @@ declare namespace Response {
     nationality: string;
     languageSkills: string;
     isPublic: boolean;
+    hobbies: any[];
   }
 
   export interface IQuickMatching {
