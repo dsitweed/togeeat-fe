@@ -44,30 +44,30 @@ function SignIn() {
   };
 
   useEffect(() => {
-    // if (false) {
-    //   notification.info({
-    //     duration: 10,
-    //     message: "Default Account",
-    //     description: (
-    //       <div>
-    //         <p>
-    //           Email: <code>stonks@hust.edu.vn</code>
-    //         </p>
-    //         <p>
-    //           Password: <code>123456</code>
-    //         </p>
-    //         <Button
-    //           size="small"
-    //           type="primary"
-    //           className="mt-2"
-    //           onClick={oneUseDefaultAccount}
-    //         >
-    //           Use this account
-    //         </Button>
-    //       </div>
-    //     ),
-    //   });
-    // }
+    if (false) {
+      notification.info({
+        duration: 10,
+        message: "Default Account",
+        description: (
+          <div>
+            <p>
+              Email: <code>stonks@hust.edu.vn</code>
+            </p>
+            <p>
+              Password: <code>123456</code>
+            </p>
+            <Button
+              size="small"
+              type="primary"
+              className="mt-2"
+              onClick={oneUseDefaultAccount}
+            >
+              Use this account
+            </Button>
+          </div>
+        ),
+      });
+    }
 
     form.setFieldsValue({
       email: "stonks@hust.edu.vn",
